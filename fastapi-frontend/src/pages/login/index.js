@@ -82,12 +82,12 @@ function LoginPage() {
                             <input
                                 className={styles.button}
                                 type="submit"
-                                value="Sign in"
+                                value="Login"
                             />
                         </div>
                     </form>
                     <Link href="/register" className={styles.link}>
-                        Register Here
+                        Sign U
                     </Link>
                 </div>
             </div>

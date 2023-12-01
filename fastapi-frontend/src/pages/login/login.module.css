@@ -9,20 +9,23 @@
 }
 
 .button {
-    margin: 10px;
+    width: 200px;
+    height: 20px;
+    margin-top: 20px;
     padding: 15px 30px;
     font-size: inherit;
-    border: none;
-    border-radius: 10px;
-    color: rgb(240, 247, 254);
-    background-color: rgb(38, 115, 148);
+    border: 2px solid black;
+    border-radius: 20px;
+    color: rgb(0, 0, 0);
+    background-color: none;
 }
 
 .button:hover {
     background-color: rgb(50, 150, 200);
+    border-bottom: 1px solid black;
 }
 
 .link {
     text-decoration: none;
-    font-size: 20px;
+    font-size: 15px;
 }

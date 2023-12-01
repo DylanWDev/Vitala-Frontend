@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 const NutritionixApiExample = () => {
   const [foodQuery, setFoodQuery] = useState("");
   const [error, setError] = useState(null);
+  const [searchResult, setSearchResult] = useState(null);
 
   const NUTRITIONIX_APP_ID = "0be43934";
   const NUTRITIONIX_APP_KEY = "5622786a494b005ab83dee42b4282321";
-  const baseURL = "https://trackapi.nutritionix.com/v2/search/instant/";
+  const baseURL = "https://trackapi.nutritionix.com/v2/natural/nutrients";
 
-  const handleSearch = async () => {
+  const fetchData = async () => {
     try {
       const response = await axios.post(
         baseURL,
@@ -25,21 +26,25 @@ const NutritionixApiExample = () => {
         }
       );
 
-      console.log("response.data", response.data);
+      setSearchResult(response.data);
     } catch (error) {
       setError("Error fetching data from Nutritionix API");
       console.error("Error fetching data from Nutritionix API:", error);
     }
   };
 
+  useEffect(() => {
+    if (foodQuery.trim() !== "") {
+      fetchData();
+    }
+  }, [foodQuery]);
+
   const handleKeyPress = (e) => {
-    setFoodQuery(e.target.value);
-    if (e.target.value.length > 3) {
-      handleSearch();
+    if (e.key === "Enter") {
+      e.preventDefault();
+      fetchData();
     }
   };
-
-  //e.target.value > 4 then return result
 
   return (
     <div className="container">
@@ -47,12 +52,23 @@ const NutritionixApiExample = () => {
         <input
           type="text"
           value={foodQuery}
-          onChange={handleKeyPress}
+          onChange={(e) => setFoodQuery(e.target.value)}
+          onKeyPress={handleKeyPress}
           placeholder="Enter food query"
         />
-        <button onClick={handleSearch}>Search</button>
       </div>
       {error && <p>{error}</p>}
+      {searchResult && (
+        <div>
+          <h2>Search Result:</h2>
+          {searchResult.foods && searchResult.foods.length > 0 && (
+            <div>
+              <h3><strong>{searchResult.foods[0].food_name}:</strong></h3>
+              <p>Calories: {searchResult.foods[0].nf_calories}, Serving: {searchResult.foods[0].serving_qty} {searchResult.foods[0].serving_unit}</p>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
