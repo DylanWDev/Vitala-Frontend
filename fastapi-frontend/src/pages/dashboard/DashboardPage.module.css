@@ -1,0 +1,25 @@
+/* DashboardPage.module.css */
+
+.dashboardContainer {
+    display: flex;
+  }
+  
+.sidebar {
+    width: 100px;
+    height: 100vh;
+    border-right: 5px solid black;
+  }
+  
+.mainContent {
+    /* Add styles for the main content area */
+    flex-grow: 1; /* Allow the main content to grow and fill the remaining space */
+  }
+
+.nav {
+    color: black;
+    display: flex;
+    justify-content: center;
+}
+
+  
+  
