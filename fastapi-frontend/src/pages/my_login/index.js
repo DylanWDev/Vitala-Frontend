@@ -53,18 +53,18 @@ function LoginPage() {
     return (
       <div className={styles.container}>
         <div className={styles.formContainer}>
-          <h1>Login</h1>
+          <h1 className={styles.h1}>Login</h1>
           <form onSubmit={handleLogin}>
-          <div>
+          <div className={styles.emailFlex}>
             <input  className={styles.inputEmail} placeholder='Email'onChange={(e) => setEmail(e.target.value)} required />
           </div>
           <div>
             <input className={styles.inputPassword} placeholder='password' onChange={(e) => setPassword(e.target.value)} required minLength="8" />
           </div>
-          
           <button className={styles.loginButton}>Login</button>
+          <div className={styles.buttonSeperator}></div>
           </form>
-          <Link href="/register" className={styles.link}>Sign Up</Link>
+          <p className={styles.link}>Not a member? <Link href="/register" ><u>Sign up now</u></Link></p>
         </div>
       </div>
     );
