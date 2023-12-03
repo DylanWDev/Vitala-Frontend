@@ -1,19 +1,85 @@
-.container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100vh; 
-  }
-  
-  .formContainer {
-    text-align: center;
-  }
-  
-  .inputText {
-    margin-bottom: 2px;
-  }
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-button {
-    margin:
+
+.formContainer {
+  background-color: rgb(255, 255, 255);
+  text-align: center;
+  width: 70vw; 
+  max-width: 400px; 
+  margin: 0 auto;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.7);
 }
-  
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-image: url("../img/super-snapper-efJu9SKIjLA-unsplash.jpg");
+  background-size: cover; /* Adjust as needed */
+  background-position: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+.inputEmail,
+.inputPassword {
+  height: 40px;
+  width: 100%;
+  border: solid 1px rgb(182, 182, 182);
+  border-radius: 5px;
+  background-color: rgb(209, 209, 209);
+  margin-top: 20px;
+  box-sizing: border-box;
+  font-size: 15px;
+  padding-left: 15px;
+  cursor: pointer;
+  outline: none;
+}
+
+.loginButton {
+  margin-top: 25px;
+  margin-bottom: 5px;
+  width: 100%;
+  height: 40px;
+  padding: 10px; 
+  border: none;
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  background-color: rgb(27, 176, 74);
+}
+
+.loginButton:before {
+  content: '•••••';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: transparent;
+}
+
+.loginButton:hover {
+  background-color: rgb(21, 169, 68);
+}
+
+.inputContainer {
+  position: relative;
+}
+
+.inputLabel {
+  position: absolute;
+  top: 50%;
+  left: 90%;
+  transform: translateY(-50%);
+  pointer-events: none; /* Allow clicking through the label to the input */
+  color: #777; /* Adjust the color as needed */
+}
+
+.link {
+  text-decoration: none;
+  font-size: 15px;
+  color: rgb(75, 89, 191);
+}
