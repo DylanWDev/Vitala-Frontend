@@ -7,7 +7,7 @@
 }
 
 .formContainer {
-  background-color: rgb(255, 255, 255);
+  background-color: #fafafa;
   text-align: center;
   width: 70vw; 
   max-width: 400px; 
@@ -63,13 +63,13 @@
   font-weight: bold;
   cursor: pointer;
   position: relative;
-  background-color: rgb(27, 176, 74);
+  background-color: #72ee72;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.7)
 }
 
 
 .loginButton:hover {
-  background-color: rgb(19, 144, 58);
+  background-color: #66d466;
 }
 
 .inputContainer {

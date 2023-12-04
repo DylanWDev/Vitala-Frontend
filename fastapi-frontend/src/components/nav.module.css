@@ -1,89 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-
-.navContainer {
-    display: flex;
-    font-family: 'Poppins', sans-serif;
-  }
-  
-.sidebar {
-    padding-top: 150px;
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: center;
-    width: 100px;
-    height: 100vh;
-    background-color: rgb(212, 212, 212);
-    border-right: 3px solid black;
-  }
-  
-
-.nav {
-    font-size: 25px;
-    border-radius: 5px;
-    width: 50px;
-    height: 50px;
-    margin-top: 25px;
-    color: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: transform 0.3s ease;
-}
-
-.nav:hover {
-  transform: scale(1.2); 
-}
-
-.nav:active {
-  transform: scale(0.8);
-}
-
-
-/* DashboardPage.module.css */
-
-.pageDisplay {
-  width: 100%;
-  height: 100px;
-  border-bottom: 3px solid black;
-  background-color: rgb(212, 212, 212);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.centerContent {
-  flex-grow: 1; /* Allow the centerContent div to take up the remaining space */
-  text-align: center;
-}
-
-.userIcon {
-  margin-right: 20px;
-  font-size: 40px;
-  
-}
-
-.h1 {
-  margin-bottom: 0px;
-}
-
-.a {
+.navIcons {
+  font-size: 30px;
   color: black;
-}
-
-.pageDisplayDiv {
-  width: 100vw;
-}
-
-
-.mainContent {
-  height: 65%;
-  border-radius: 8px;
-  margin: 100px;
-  border: 3px solid black;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  margin: 25px;
+  cursor: pointer;
   
 }

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 
 .navContainer {
@@ -41,7 +41,7 @@
 }
 
 
-/* DashboardPage.module.css */
+
 
 .pageDisplay {
   width: 100%;
@@ -54,7 +54,7 @@
 }
 
 .centerContent {
-  flex-grow: 1; /* Allow the centerContent div to take up the remaining space */
+  flex-grow: 1; 
   text-align: center;
 }
 
@@ -102,4 +102,4 @@
   font-size: 14px;
   color: #666;
   text-align: center;
-}
+} */
