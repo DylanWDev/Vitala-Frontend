@@ -14,11 +14,17 @@ export default function Nav( { pageName } ) {
           <a href="" className={styles.nav}><FontAwesomeIcon icon={faCalendarDays} /></a>
           <a href="" className={styles.nav}></a>
         </div>
+        <div className={styles.pageDisplayDiv}>
         <div className={styles.pageDisplay}>
           <div className={styles.centerContent}>
             <h1 className={styles.h1}><strong>{pageName}</strong></h1>
           </div>
           <div className={styles.userIcon}><a className={styles.a} href="user_page"><FontAwesomeIcon icon={faCircleUser} /></a></div>
+        <div className={styles.middle}></div>
+        </div>
+        <div className={styles.mainContent}>
+        <h1>hi</h1>
+        </div>
         </div>
       </section>
     </>
