@@ -1,12 +1,10 @@
 import React from "react";
 import Link from "next/link";
-import styles from './DashboardPage.module.css'
+import styles from './nav.module.css'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBarChart, faMagnifyingGlass, faCircleUser, faCalendarDays } from "@fortawesome/free-solid-svg-icons";
-import Nav from "@/components/nav";
+import { faBarChart, faMagnifyingGlass, faCircleUser, faCalendarDays } from "@fortawesome/free-solid-svg-icons"; 
 
-export default function DashboardPage() {
-  const pageName = "Dashbaord"
+export default function Nav( { pageName } ) {
   return (
     <>
       <section className={styles.navContainer}>
@@ -21,9 +19,7 @@ export default function DashboardPage() {
             <h1 className={styles.h1}><strong>{pageName}</strong></h1>
           </div>
           <div className={styles.userIcon}><a className={styles.a} href="user_page"><FontAwesomeIcon icon={faCircleUser} /></a></div>
-        <div className={styles.middle}></div>
         </div>
-        
       </section>
     </>
   );

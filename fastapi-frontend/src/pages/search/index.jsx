@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import styles from './NutritionixApiExample.module.css'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBarChart, faMagnifyingGlass, faCircleUser, faCalendarDays } from "@fortawesome/free-solid-svg-icons"; 
 
 const NutritionixApiExample = () => {
   const [foodQuery, setFoodQuery] = useState("");
@@ -46,15 +49,32 @@ const NutritionixApiExample = () => {
     }
   };
 
+  const pageName = "Search"
+
   return (
-    <div className="container">
-      <div>
+    <div className={styles.container}>
+      <section className={styles.navContainer}>
+        <div className={styles.sidebar}>
+          <a href="/dashboard" className={styles.nav}><FontAwesomeIcon icon={faBarChart} /></a>
+          <a href="/search" className={styles.nav}><FontAwesomeIcon icon={faMagnifyingGlass} /></a>
+          <a href="" className={styles.nav}><FontAwesomeIcon icon={faCalendarDays} /></a>
+          <a href="" className={styles.nav}></a>
+        </div>
+        <div className={styles.pageDisplay}>
+          <div className={styles.centerContent}>
+            <h1 className={styles.h1}><strong>{pageName}</strong></h1>
+          </div>
+          <div className={styles.userIcon}><a className={styles.a} href="user_page"><FontAwesomeIcon icon={faCircleUser} /></a></div>
+        </div>
+      </section>
+      <div className={styles.inputContainer}>
         <input
           type="text"
           value={foodQuery}
           onChange={(e) => setFoodQuery(e.target.value)}
           onKeyPress={handleKeyPress}
           placeholder="Enter food query"
+          className={styles.input}
         />
       </div>
       {error && <p>{error}</p>}
@@ -71,6 +91,7 @@ const NutritionixApiExample = () => {
       )}
     </div>
   );
+  
 };
 
 export default NutritionixApiExample;
