@@ -35,53 +35,53 @@ export default function DashboardPage() {
   }, []);
 
   return (
-    <>
+    <div className={styles.pageContainer}>
       <Sidebar />
-    </>
-    // <div className={styles.dashboardContainer}>
-    //   <main className={styles.mainContent}>
-    //     <div className={styles.macros}>
-    //       <div>
-    //         <h5>Protein</h5>
-    //         <p>100g</p>
-    //       </div>
-    //       <div>
-    //         <h5>Carbs</h5>
-    //         <p>100g</p>
-    //       </div>
-    //       <div>
-    //         <h5>Fats</h5>
-    //         <p>100g</p>
-    //       </div>
-    //       <div>
-    //         <h5>Water</h5>
-    //         <p>5L</p>
-    //       </div>
-    //     </div>
-    //     <div className={styles.flex}>
-    //       <h1>750cal</h1>
-    //     </div>
-    //     <div className={styles.flex}>
-    //       <div className={styles.macros}>
-    //         <div>
-    //           <h5>Breakfast</h5>
-    //           <p>100cal</p>
-    //         </div>
-    //         <div>
-    //           <h5>Lunch</h5>
-    //           <p>100cal</p>
-    //         </div>
-    //         <div>
-    //           <h5>Dinner</h5>
-    //           <p>100cal</p>
-    //         </div>
-    //         <div>
-    //           <h5>Snacks</h5>
-    //           <p>100cal</p>
-    //         </div>
-    //       </div>
-    //     </div>
-    //   </main>
-    // </div>
+      <div className={styles.dashboardContainer}>
+        <main className={styles.mainContent}>
+          <div className={styles.macros}>
+            <div>
+              <h5>Protein</h5>
+              <p>100g</p>
+            </div>
+            <div>
+              <h5>Carbs</h5>
+              <p>100g</p>
+            </div>
+            <div>
+              <h5>Fats</h5>
+              <p>100g</p>
+            </div>
+            <div>
+              <h5>Water</h5>
+              <p>5L</p>
+            </div>
+          </div>
+          <div className={styles.flex}>
+            <h1>750cal</h1>
+          </div>
+          <div className={styles.flex}>
+            <div className={styles.macros}>
+              <div>
+                <h5>Breakfast</h5>
+                <p>100cal</p>
+              </div>
+              <div>
+                <h5>Lunch</h5>
+                <p>100cal</p>
+              </div>
+              <div>
+                <h5>Dinner</h5>
+                <p>100cal</p>
+              </div>
+              <div>
+                <h5>Snacks</h5>
+                <p>100cal</p>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
   );
 }
