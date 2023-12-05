@@ -7,6 +7,7 @@ const NutritionixApiExample = () => {
   const [foodQuery, setFoodQuery] = useState("");
   const [error, setError] = useState(null);
   const [searchResult, setSearchResult] = useState(null);
+  const [foods, setFoods] = useState([]);
 
   const NUTRITIONIX_APP_ID = "0be43934";
   const NUTRITIONIX_APP_KEY = "5622786a494b005ab83dee42b4282321";
@@ -30,6 +31,7 @@ const NutritionixApiExample = () => {
       );
 
       setSearchResult(response.data);
+      setFoods(response.data.foods || []); // Assuming the array of foods is in response.data.foods
       console.log("Nutritionix Response:", response.data);
     } catch (error) {
       setError("Error fetching data from Nutritionix API");
@@ -40,8 +42,17 @@ const NutritionixApiExample = () => {
   const handleClickEvent = async () => {
     try {
       const dataToSend = {
-        meal_type: "Breakfast",
+        servings: foods[0]?.serving_qty || 0,
+        date_logged: foods[0]?.consumed_at || new Date().toISOString(),
+        calories: foods[0]?.nf_calories || 0.0,
+        protein: foods[0]?.nf_protein || 0.0,
+        carbs: foods[0]?.nf_total_carbohydrate || 0.0,
+        fats: foods[0]?.nf_total_fat || 0.0,
+        serving_unit: foods[0]?.serving_unit || "unit",
+        serving_weight_grams: foods[0]?.serving_weight_grams || 0,
+        meal_type: foods[0]?.meal_type || 0,
       };
+      // console.log(foods[0].meal_type)
 
       const response = await axios.post(backendBaseURL, dataToSend);
 
@@ -71,7 +82,7 @@ const NutritionixApiExample = () => {
               placeholder="Enter food query"
               className={styles.input}
             />
-            <button onClick={handleClickEvent}>Send to Backend</button>
+            
           </div>
           {searchResult && (
             <div>
@@ -79,6 +90,7 @@ const NutritionixApiExample = () => {
                 <div className={styles.apiInfo}>
                   <h3><strong>{searchResult.foods[0].food_name}:</strong></h3>
                   <p>Calories: {searchResult.foods[0].nf_calories}, Serving: {searchResult.foods[0].serving_qty} {searchResult.foods[0].serving_unit}</p>
+                  <button onClick={handleClickEvent}>+</button>
                 </div>
               )}
             </div>
