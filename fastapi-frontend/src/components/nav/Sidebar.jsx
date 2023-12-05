@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 import styles from "./nav.module.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/css/bootstrap.css";

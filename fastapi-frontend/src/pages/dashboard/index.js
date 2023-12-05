@@ -1,17 +1,9 @@
 import React from "react";
-import Link from "next/link";
 import styles from "./DashboardPage.module.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBarChart,
-  faMagnifyingGlass,
-  faCircleUser,
-  faCalendarDays,
-} from "@fortawesome/free-solid-svg-icons";
-import Nav from "@/components/Sidebar";
 import { useEffect, useState } from "react";
 import axios, { Axios } from "axios";
-import Sidebar from "@/components/Sidebar";
+import Sidebar from "@/components/nav/Sidebar";
+import PageDisplay from "@/components/pageDisplay/PageDisplay";
 
 export default function DashboardPage() {
   let [data, setData] = useState(null);
@@ -37,6 +29,7 @@ export default function DashboardPage() {
   return (
     <div className={styles.pageContainer}>
       <Sidebar />
+      {/* <PageDisplay /> */}
       <div className={styles.dashboardContainer}>
         <main className={styles.mainContent}>
           <div className={styles.macros}>

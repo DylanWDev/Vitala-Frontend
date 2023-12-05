@@ -1,7 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { GlobalStateProvider } from "../context/GlobalState";
 import styles from "../styles/global.module.css";
-import Nav from "@/components/Sidebar";
+import Nav from "@/components/nav/Sidebar";
 
 function MyApp({ Component, pageProps }) {
   return (
