@@ -5,8 +5,6 @@ import AuthService from "../../services/auth.service";
 import { jwtDecode } from "jwt-decode";
 import styles from "./my_login.module.css";
 import Link from "next/link";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
 function LoginPage() {
   const router = useRouter();
@@ -69,7 +67,7 @@ function LoginPage() {
               minLength="8"
             />
           </div>
-          <button className={styles.loginButton}>Login</button>
+          <button className={styles.loginButton} type="submit">Login</button>
           <div className={styles.buttonSeperator}></div>
         </form>
         <p className={styles.link}>
