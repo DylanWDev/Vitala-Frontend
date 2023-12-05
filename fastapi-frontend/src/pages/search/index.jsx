@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import styles from './NutritionixApiExample.module.css';
 import { API_URL } from "@/services/auth.constants";
+import Nav from "@/components/nav/Nav";
 
 const NutritionixApiExample = () => {
   const [foodQuery, setFoodQuery] = useState("");
@@ -51,8 +52,8 @@ const NutritionixApiExample = () => {
         serving_unit: foods[0]?.serving_unit || "unit",
         serving_weight_grams: foods[0]?.serving_weight_grams || 0,
         meal_type: foods[0]?.meal_type || 0,
+        food_name: foods[0]?.food_name || "name"
       };
-      // console.log(foods[0].meal_type)
 
       const response = await axios.post(backendBaseURL, dataToSend);
 
@@ -71,6 +72,7 @@ const NutritionixApiExample = () => {
 
   return (
     <>
+    <Nav/>
       <div className={styles.inputContainer}>
         <div className={styles.mainContent}>
           <div>

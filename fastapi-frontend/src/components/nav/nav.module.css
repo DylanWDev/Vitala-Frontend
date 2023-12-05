@@ -1,7 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+/* style={{ backgroundColor: "red", height: "100px", width: "100vw" }} */
+
+.navContainer {
+  height: 75px;
+  background-color: rgb(214, 214, 214);
+  display: flex;
+  justify-content: space-between;
+}
 
 .navIcons {
-  font-size: 30px;
+  font-size: 20px;
   color: black;
   margin: 25px;
   cursor: pointer;
