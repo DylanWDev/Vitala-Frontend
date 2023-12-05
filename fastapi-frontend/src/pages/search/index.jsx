@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import styles from './NutritionixApiExample.module.css'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBarChart, faMagnifyingGlass, faCircleUser, faCalendarDays } from "@fortawesome/free-solid-svg-icons"; 
-import Sidebar from "@/components/nav/Nav";
-import PageDisplay from "@/components/pageDisplay/PageDisplay";
+import styles from './NutritionixApiExample.module.css';
+import { API_URL } from "@/services/auth.constants";
 
 const NutritionixApiExample = () => {
   const [foodQuery, setFoodQuery] = useState("");
@@ -13,12 +10,13 @@ const NutritionixApiExample = () => {
 
   const NUTRITIONIX_APP_ID = "0be43934";
   const NUTRITIONIX_APP_KEY = "5622786a494b005ab83dee42b4282321";
-  const baseURL = "https://trackapi.nutritionix.com/v2/natural/nutrients";
+  const nutritionixBaseURL = "https://trackapi.nutritionix.com/v2/natural/nutrients";
+  const backendBaseURL = "http://127.0.0.1:8000/api/v1/foodlogs/";
 
   const fetchData = async () => {
     try {
       const response = await axios.post(
-        baseURL,
+        nutritionixBaseURL,
         {
           query: foodQuery,
         },
@@ -32,17 +30,26 @@ const NutritionixApiExample = () => {
       );
 
       setSearchResult(response.data);
+      console.log("Nutritionix Response:", response.data);
     } catch (error) {
       setError("Error fetching data from Nutritionix API");
       console.error("Error fetching data from Nutritionix API:", error);
     }
   };
 
-  useEffect(() => {
-    if (foodQuery.trim() !== "") {
-      fetchData();
+  const handleClickEvent = async () => {
+    try {
+      const dataToSend = {
+        meal_type: "Breakfast",
+      };
+
+      const response = await axios.post(backendBaseURL, dataToSend);
+
+      console.log('Backend Response:', response.data);
+    } catch (error) {
+      console.error('Error posting data to the backend:', error);
     }
-  }, [foodQuery]);
+  };
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -51,12 +58,9 @@ const NutritionixApiExample = () => {
     }
   };
 
-  const pageName = "Search"
-
   return (
     <>
       <div className={styles.inputContainer}>
-        <Sidebar />
         <div className={styles.mainContent}>
           <div>
             <input
@@ -67,6 +71,7 @@ const NutritionixApiExample = () => {
               placeholder="Enter food query"
               className={styles.input}
             />
+            <button onClick={handleClickEvent}>Send to Backend</button>
           </div>
           {searchResult && (
             <div>
@@ -82,7 +87,6 @@ const NutritionixApiExample = () => {
       </div>
     </>
   );
-  
 };
 
 export default NutritionixApiExample;
