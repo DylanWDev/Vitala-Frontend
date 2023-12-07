@@ -1,22 +1,42 @@
-import React from "react";
-import styles from "./nav.module.css";
-import "bootstrap-icons/font/bootstrap-icons.css";
-import "bootstrap/dist/css/bootstrap.css";
-import { faMagnifyingGlass, faHome, faCalendarDays } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// Navbar.js
 
-export default function Nav() {
+import React from 'react';
+
+const Nav = () => {
   return (
-    <>
-      <div className={styles.navContainer} >
-        <div className={styles.logo}></div>
-      
-        <div className="d-flex flex-row align-items-center">
-          <a href="/dashboard" className={styles.navIcons}><FontAwesomeIcon icon={faHome} /></a>
-          <a href="/search" className={styles.navIcons}><FontAwesomeIcon icon={faMagnifyingGlass} /></a>
-          <a href="/calendar" className={styles.navIcons}><FontAwesomeIcon icon={faCalendarDays} /></a>
+    <nav className="navbar navbar-expand-lg navbar-light bg-body-tertiary">
+      <div className="container-fluid">
+        <a className="navbar-brand" href="#">
+          Vitala
+        </a>
+        <button
+          data-mdb-collapse-init
+          className="navbar-toggler"
+          type="button"
+          data-mdb-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <i className="fas fa-bars"></i>
+        </button>
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav">
+            <li className="nav-item">
+              <a className="nav-link active" aria-current="page" href="#">
+                Dashboard
+              </a>
+            </li>
+            <li className="nav-item">
+              <a className="nav-link" href="#">
+                Calandar
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
-    </>
+    </nav>
   );
-}
+};
+
+export default Nav;

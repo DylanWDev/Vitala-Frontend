@@ -5,7 +5,7 @@ import DataService from "@/services/data.service";
 import { useEffect, useState } from "react";
 import { useGlobalState } from "@/context/GlobalState";
 import axios, { Axios } from "axios";
-import Nav from "@/components/nav/Nav";
+import Nav from "@/components/Nav/Nav";
 
 
 export default function DashboardPage() {
@@ -79,7 +79,7 @@ export default function DashboardPage() {
     let fetchData = async () => {
       try {
         const response = await axios.get(
-          "http://127.0.0.1:8000/api/v1/foodlogs/"
+          "http://127.0.0.1:8000/api/v1/foodlogs/get_my_food_logs/24"
         );
         setData(response.data);
         console.log(response);
@@ -92,7 +92,7 @@ export default function DashboardPage() {
   }, []);
 
   // Calculate total values
-  const totalProtein = Math.round((data ?? []).reduce((acc, entry) => acc + entry.protein, 0));
+   const totalProtein = Math.round((data ?? []).reduce((acc, entry) => acc + entry.protein, 0));
   const totalCarbs = Math.round((data ?? []).reduce((acc, entry) => acc + entry.carbs, 0));
   const totalFats = Math.round((data ?? []).reduce((acc, entry) => acc + entry.fats, 0));
 

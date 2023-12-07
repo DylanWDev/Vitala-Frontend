@@ -3,7 +3,14 @@
 
 .pageContainer {
   display: flex;
+  flex-direction: column;
   width: 100vw;
+}
+
+
+.dashboardContainer {
+  display: flex;
+  justify-content: center;
 }
 
 .navContainer {

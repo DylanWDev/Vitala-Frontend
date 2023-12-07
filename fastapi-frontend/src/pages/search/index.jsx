@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 import styles from './NutritionixApiExample.module.css';
 import { API_URL } from "@/services/auth.constants";
-import Nav from "@/components/nav/Nav";
+import Nav from "@/components/Nav/Nav";
+import { useGlobalState } from "@/context/GlobalState";
 
 const NutritionixApiExample = () => {
   const [foodQuery, setFoodQuery] = useState("");
@@ -14,6 +16,24 @@ const NutritionixApiExample = () => {
   const NUTRITIONIX_APP_KEY = "5622786a494b005ab83dee42b4282321";
   const nutritionixBaseURL = "https://trackapi.nutritionix.com/v2/natural/nutrients";
   const backendBaseURL = "http://127.0.0.1:8000/api/v1/foodlogs/";
+
+
+  const { state, dispatch} = useGlobalState();
+
+  useEffect(() => {
+    const getUserFromLocalStorage = () => {
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        const user = jwtDecode(userData);
+        console.log('User data:', user);
+        dispatch({
+          type: 'SET_USER',
+          payload: user
+        });
+      }
+    };
+    getUserFromLocalStorage();
+  }, []);
 
   const fetchData = async () => {
     try {
@@ -50,9 +70,10 @@ const NutritionixApiExample = () => {
         carbs: foods[0]?.nf_total_carbohydrate || 0.0,
         fats: foods[0]?.nf_total_fat || 0.0,
         serving_unit: foods[0]?.serving_unit || "unit",
-        serving_weight_grams: foods[0]?.serving_weight_grams || 0,
+        serving_weight_grams: foods[0]?.serving_weight_grams || 0.0,
         meal_type: foods[0]?.meal_type || 0,
-        food_name: foods[0]?.food_name || "name"
+        food_name: foods[0]?.food_name || "name",
+        user_id: parseInt(state.user.sub)
       };
 
       const response = await axios.post(backendBaseURL, dataToSend);
