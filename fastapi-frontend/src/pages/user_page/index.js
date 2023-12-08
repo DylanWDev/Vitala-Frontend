@@ -5,12 +5,13 @@ import { jwtDecode } from "jwt-decode";
 
 function YourComponent() {
   const [age, setAge] = useState(0);
-  const [height, setHeight] = useState(0);
-  const [weight, setWeight] = useState(0);
+  const [feet, setFeet] = useState("1");
+  const [inches, setInches] = useState("1");
+  const [weightLbs, setWeightLbs] = useState(0);
   const [gender, setGender] = useState("");
   const [activityLevel, setActivityLevel] = useState(0);
   const [healthGoals, setHealthGoals] = useState("");
-  
+
   const { state, dispatch } = useGlobalState();
 
   const handleInputChange = (setter) => (event) => {
@@ -18,15 +19,26 @@ function YourComponent() {
     setter(inputValue);
   };
 
+  // Convert feet and inches to centimeters
+  const heightInCm = () => {
+    const totalInches = parseInt(feet) * 12 + parseInt(inches);
+    return Math.round(totalInches * 2.54);
+  };
+
+  // Convert pounds to kilograms
+  const weightInKg = () => {
+    return Math.round(parseInt(weightLbs) / 2.205);
+  };
+
   useEffect(() => {
     const getUserFromLocalStorage = () => {
-      const userData = localStorage.getItem('user');
+      const userData = localStorage.getItem("user");
       if (userData) {
         const user = jwtDecode(userData);
-        console.log('User data:', user);
+        console.log("User data:", user);
         dispatch({
-          type: 'SET_USER',
-          payload: user
+          type: "SET_USER",
+          payload: user,
         });
       }
     };
@@ -35,12 +47,21 @@ function YourComponent() {
 
   const handleUpdate = async (column, value) => {
     try {
+      // Convert values before sending to the database
+      let convertedValue = value;
+
+      if (column === "height") {
+        convertedValue = heightInCm();
+      } else if (column === "weight") {
+        convertedValue = weightInKg();
+      }
+
       const requestBody = {
         accept: "application/json",
       };
 
       const response = await axios.put(
-        `http://127.0.0.1:8000/api/v1/users/data/${state.user.sub}?column_name=${column}&column_value=${value}`,
+        `http://127.0.0.1:8000/api/v1/users/data/${state.user.sub}?column_name=${column}&column_value=${convertedValue}`,
         requestBody
       );
 
@@ -55,32 +76,48 @@ function YourComponent() {
       <div>
         <label>Age:</label>
         <input value={age} onChange={handleInputChange(setAge)} />
-        <button onClick={() => handleUpdate('age', age)}>Update Age</button>
+        <button onClick={() => handleUpdate("age", age)}>Update Age</button>
       </div>
       <div>
-        <label>Height:</label>
-        <input value={height} onChange={handleInputChange(setHeight)} />
-        <button onClick={() => handleUpdate('height', height)}>Update Height</button>
+        <label>Height (feet):</label>
+        <select value={feet} onChange={handleInputChange(setFeet)}>
+          {Array.from({ length: 6 }, (_, index) => (
+            <option key={index + 1} value={(index + 1).toString()}>
+              {index + 1}
+            </option>
+          ))}
+        </select>
       </div>
       <div>
-        <label>Weight:</label>
-        <input value={weight} onChange={handleInputChange(setWeight)} />
-        <button onClick={() => handleUpdate('weight', weight)}>Update Weight</button>
+        <label>Height (inches):</label>
+        <select value={inches} onChange={handleInputChange(setInches)}>
+          {Array.from({ length: 11 }, (_, index) => (
+            <option key={index + 1} value={(index + 1).toString()}>
+              {index + 1}
+            </option>
+          ))}
+        </select>
       </div>
+      <div>
+        <label>Weight (lbs):</label>
+        <input value={weightLbs} onChange={handleInputChange(setWeightLbs)} />
+      </div>
+      <button onClick={() => handleUpdate("height", heightInCm())}>Update Height</button>
+      <button onClick={() => handleUpdate("weight", weightInKg())}>Update Weight</button>
       <div>
         <label>Gender:</label>
         <input value={gender} onChange={handleInputChange(setGender)} />
-        <button onClick={() => handleUpdate('gender', gender)}>Update Gender</button>
+        <button onClick={() => handleUpdate("gender", gender)}>Update Gender</button>
       </div>
       <div>
         <label>Activity Level:</label>
         <input value={activityLevel} onChange={handleInputChange(setActivityLevel)} />
-        <button onClick={() => handleUpdate('activity_level', activityLevel)}>Update Activity Level</button>
+        <button onClick={() => handleUpdate("activity_level", activityLevel)}>Update Activity Level</button>
       </div>
       <div>
         <label>Health Goals:</label>
         <input value={healthGoals} onChange={handleInputChange(setHealthGoals)} />
-        <button onClick={() => handleUpdate('health_goals', healthGoals)}>Update Health Goals</button>
+        <button onClick={() => handleUpdate("health_goals", healthGoals)}>Update Health Goals</button>
       </div>
     </>
   );
