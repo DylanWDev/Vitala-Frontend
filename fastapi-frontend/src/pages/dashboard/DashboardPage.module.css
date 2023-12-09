@@ -1,7 +1,6 @@
- @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-
- .pageContainer {
+.pageContainer {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,7 +13,6 @@
   border: 1px solid black;
   margin-top: 20px;
   width: 100vw;
-  height: 85vh;
   padding: 20px;
 }
 
@@ -28,6 +26,7 @@
 .macroCaloriesContainer {
   border: 1px solid #ccc;
   padding: 10px;
+  flex: 2; /* Adjust the flex value to control the width */
 }
 
 .macros,
@@ -40,6 +39,14 @@
   margin-bottom: 10px;
 }
 
+.searchAndHistory {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1; /* Adjust the flex value to control the width */
+}
+
 .searchContent {
   border: 1px solid #ccc;
   padding: 10px;
@@ -47,11 +54,24 @@
 
 .input {
   margin-bottom: 10px;
+  width: 100%;
 }
 
-.apiInfo,
 .foodLogs {
-  margin-top: 10px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
 }
 
- 
+.foodLogs ul {
+  list-style: none; /* Remove default list styles */
+  padding: 0; /* Remove default padding */
+}
+
+.foodLogs li {
+  margin-bottom: 8px; /* Add margin between list items */
+}
+
+.searchGap {
+  height: 20px; /* Adjust the height of the gap */
+  grid-column: 1 / span 2; /* Spans across both columns */
+}

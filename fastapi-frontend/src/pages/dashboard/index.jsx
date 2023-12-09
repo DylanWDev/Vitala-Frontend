@@ -147,8 +147,9 @@ export default function DashboardPage() {
         console.log("Updated Food Logs:", updatedResponse.data);
 
         // Clear the search result and foods state after adding
-        setSearchResult(null);
-        setFoods([]);
+        // setSearchResult(null);
+        // setFoods([]);
+        clearSearchBar();
       } else {
         // Display a message or handle the case where adding the food log exceeds the budget
         console.log("Adding this food log exceeds the caloric budget!");
@@ -168,6 +169,11 @@ export default function DashboardPage() {
   };
 
   //!============================================
+  const clearSearchBar = () => {
+    setFoodQuery("")
+  }
+
+
   // Caloric budget calculation
   const calculateCalorieIntake = () => {
     const { age, weight, height, gender } = userData;
@@ -192,6 +198,8 @@ export default function DashboardPage() {
 
   //TODO============================================
   // Render component
+// Render component
+// Render component
 // Render component
 return (
   <>
@@ -228,9 +236,10 @@ return (
             </div>
           </div>
 
+          <div className={styles.searchAndHistory}>
           {/* Right Column - Search Input, API Info, Food Log History */}
-          <div className={styles.searchContent}>
-            <div>
+         
+            <div className={styles.searchContent}>
               <input
                 type="text"
                 value={foodQuery}
@@ -239,27 +248,26 @@ return (
                 placeholder="Enter food query"
                 className={styles.input}
               />
+              {searchResult && (
+                <div>
+                  {searchResult.foods && searchResult.foods.length > 0 && (
+                    <div className={styles.apiInfo}>
+                      <h3>
+                        <strong>{searchResult.foods[0].food_name}:</strong>
+                      </h3>
+                      <p>
+                        Calories: {searchResult.foods[0].nf_calories}, Serving:{" "}
+                        {searchResult.foods[0].serving_qty}{" "}
+                        {searchResult.foods[0].serving_unit}
+                      </p>
+                      <button onClick={handleClickEvent}>+</button>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
-            {searchResult && (
-              <div>
-                {searchResult.foods && searchResult.foods.length > 0 && (
-                  <div className={styles.apiInfo}>
-                    <h3>
-                      <strong>{searchResult.foods[0].food_name}:</strong>
-                    </h3>
-                    <p>
-                      Calories: {searchResult.foods[0].nf_calories}, Serving:{" "}
-                      {searchResult.foods[0].serving_qty}{" "}
-                      {searchResult.foods[0].serving_unit}
-                    </p>
-                    <button onClick={handleClickEvent}>+</button>
-                  </div>
-                )}
-              </div>
-            )}
-
             {/* Display the history of added food logs */}
-            <div className={styles.foodLogs}>
+            <div className={`${styles.foodLogs}`}>
               <h2>Food Log History</h2>
               <ul>
                 {data &&
@@ -276,8 +284,4 @@ return (
     </div>
   </>
 );
-
-
-
-
 }
