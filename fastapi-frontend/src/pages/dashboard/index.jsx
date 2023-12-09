@@ -194,86 +194,90 @@ export default function DashboardPage() {
   // Render component
 // Render component
 return (
-  <div className={styles.pageContainer}>
-    <Nav />
-    <div className={styles.dashboardContainer}>
+  <>
+    <div><Nav /></div>
+    <div className={styles.pageContainer}>
       <div className={styles.mainContent}>
-        {/* Left Column - Total Protein, Total Carbs, Total Fats */}
-        <div className={styles.leftColumn}>
-          <div>
-            <h5>Total Protein</h5>
-            <p>{totalProtein}g</p>
-          </div>
-          <div>
-            <h5>Total Carbs</h5>
-            <p>{totalCarbs}g</p>
-          </div>
-          <div>
-            <h5>Total Fats</h5>
-            <p>{totalFats}g</p>
-          </div>
-        </div>
-
-        {/* Center Column - Total Calories, Caloric Budget */}
-        <div className={styles.centerColumn}>
-          <div>
-            <h5>Total Calories</h5>
-            <p>{totalCalories}</p>
-          </div>
-          <div>
-            <h5>Caloric Budget</h5>
-            <p>{caloricBudget}</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Right Column - Search Input, API Info, Food Log History */}
-      <div className={styles.inputContainer}>
-        <div className={styles.mainContent}>
-          <div>
-            <input
-              type="text"
-              value={foodQuery}
-              onChange={(e) => setFoodQuery(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Enter food query"
-              className={styles.input}
-            />
-          </div>
-          {searchResult && (
-            <div>
-              {searchResult.foods && searchResult.foods.length > 0 && (
-                <div className={styles.apiInfo}>
-                  <h3>
-                    <strong>{searchResult.foods[0].food_name}:</strong>
-                  </h3>
-                  <p>
-                    Calories: {searchResult.foods[0].nf_calories}, Serving:{" "}
-                    {searchResult.foods[0].serving_qty}{" "}
-                    {searchResult.foods[0].serving_unit}
-                  </p>
-                  <button onClick={handleClickEvent}>+</button>
-                </div>
-              )}
+        <div className={styles.gridContainer}>
+          {/* Left Column - Macros and Calories */}
+          <div className={styles.macroCaloriesContainer}>
+            <div className={styles.macros}>
+              <div className={styles.columnItem}>
+                <h5>Protein</h5>
+                <p>{totalProtein}g</p>
+              </div>
+              <div className={styles.columnItem}>
+                <h5>Carbs</h5>
+                <p>{totalCarbs}g</p>
+              </div>
+              <div className={styles.columnItem}>
+                <h5>Fats</h5>
+                <p>{totalFats}g</p>
+              </div>
             </div>
-          )}
 
-          {/* Display the history of added food logs */}
-          <div className={styles.foodLogs}>
-            <h2>Food Log History</h2>
-            <ul>
-              {data &&
-                data.map((entry) => (
-                  <li key={entry.id}>
-                    {entry.food_name} - Calories: {entry.calories}
-                  </li>
-                ))}
-            </ul>
+            <div className={styles.calories}>
+              <div className={styles.columnItem}>
+                <h5>Calories</h5>
+                <p>{totalCalories}</p>
+              </div>
+              <div className={styles.columnItem}>
+                <h5>Budget</h5>
+                <p>{caloricBudget}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column - Search Input, API Info, Food Log History */}
+          <div className={styles.searchContent}>
+            <div>
+              <input
+                type="text"
+                value={foodQuery}
+                onChange={(e) => setFoodQuery(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="Enter food query"
+                className={styles.input}
+              />
+            </div>
+            {searchResult && (
+              <div>
+                {searchResult.foods && searchResult.foods.length > 0 && (
+                  <div className={styles.apiInfo}>
+                    <h3>
+                      <strong>{searchResult.foods[0].food_name}:</strong>
+                    </h3>
+                    <p>
+                      Calories: {searchResult.foods[0].nf_calories}, Serving:{" "}
+                      {searchResult.foods[0].serving_qty}{" "}
+                      {searchResult.foods[0].serving_unit}
+                    </p>
+                    <button onClick={handleClickEvent}>+</button>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Display the history of added food logs */}
+            <div className={styles.foodLogs}>
+              <h2>Food Log History</h2>
+              <ul>
+                {data &&
+                  data.map((entry) => (
+                    <li key={entry.id}>
+                      {entry.food_name} - Calories: {entry.calories}
+                    </li>
+                  ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </>
 );
+
+
+
 
 }
