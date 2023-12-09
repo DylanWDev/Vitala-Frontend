@@ -62,6 +62,7 @@ function LoginPage() {
             <input
               className={styles.inputPassword}
               placeholder="password"
+              type="password"
               onChange={(e) => setPassword(e.target.value)}
               required
               minLength="8"
@@ -72,7 +73,7 @@ function LoginPage() {
         </form>
         <p className={styles.link}>
           Not a member?{" "}
-          <Link href="/my_register">
+          <Link href="/register">
             <u>Sign up now</u>
           </Link>
         </p>

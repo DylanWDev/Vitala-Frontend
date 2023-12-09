@@ -105,7 +105,7 @@ function RegisterPage() {
         </form>
         <p className={styles.link}>
           Already have an account?{" "}
-          <Link href="/my_login">
+          <Link href="/login">
             <u>Log in</u>
           </Link>
         </p>

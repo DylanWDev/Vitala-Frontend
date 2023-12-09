@@ -3,7 +3,7 @@ import axios from "axios";
 import Nav from "@/components/Nav/Nav";
 import { useGlobalState } from "@/context/GlobalState";
 import { jwtDecode } from "jwt-decode";
-import styles from "./DashboardPage.module.css"; // Replace with your actual stylesheet import
+import styles from "./DashboardPage.module.css";
 
 export default function DashboardPage() {
   let [data, setData] = useState(null);
@@ -12,7 +12,10 @@ export default function DashboardPage() {
   const [foods, setFoods] = useState([]);
   const { state, dispatch } = useGlobalState();
   let [userData, setUserData] = useState(null);
+  const [caloricBudget, setCaloricBudget] = useState(null);
 
+  //!============================================
+  // Fetch initial data
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -29,6 +32,8 @@ export default function DashboardPage() {
     fetchData();
   }, []);
 
+  //!============================================
+  // Fetch user data when user changes
   useEffect(() => {
     const getUserData = async () => {
       try {
@@ -45,6 +50,8 @@ export default function DashboardPage() {
     getUserData();
   }, [state.user]);
 
+  //!============================================
+  // Fetch user data from local storage on component mount
   useEffect(() => {
     const getUserFromLocalStorage = () => {
       const userData = localStorage.getItem("user");
@@ -60,6 +67,8 @@ export default function DashboardPage() {
     getUserFromLocalStorage();
   }, []);
 
+  //!============================================
+  // Calculate total nutrition values
   const totalProtein = Math.round(
     (data ?? []).reduce((acc, entry) => acc + entry.protein, 0)
   );
@@ -69,7 +78,12 @@ export default function DashboardPage() {
   const totalFats = Math.round(
     (data ?? []).reduce((acc, entry) => acc + entry.fats, 0)
   );
+  const totalCalories = Math.round(
+    (data ?? []).reduce((acc, entry) => acc + entry.calories, 0)
+  );
 
+  //!============================================
+  // Nutritionix API related constants and functions
   const NUTRITIONIX_APP_ID = "0be43934";
   const NUTRITIONIX_APP_KEY = "5622786a494b005ab83dee42b4282321";
   const nutritionixBaseURL =
@@ -100,6 +114,8 @@ export default function DashboardPage() {
     }
   };
 
+  //!============================================
+  // Handle click event when adding a food log
   const handleClickEvent = async () => {
     try {
       const dataToSend = {
@@ -116,14 +132,34 @@ export default function DashboardPage() {
         user_id: parseInt(state.user.sub),
       };
 
-      const response = await axios.post(backendBaseURL, dataToSend);
+      const totalLoggedCalories = totalCalories + dataToSend.calories;
 
-      console.log("Backend Response:", response.data);
+      if (caloricBudget !== null && totalLoggedCalories <= caloricBudget) {
+        // Post the new food log
+        const response = await axios.post(backendBaseURL, dataToSend);
+        console.log("Backend Response:", response.data);
+
+        // Fetch updated data after successfully posting
+        const updatedResponse = await axios.get(
+          "http://127.0.0.1:8000/api/v1/foodlogs/all_food_logs"
+        );
+        setData(updatedResponse.data);
+        console.log("Updated Food Logs:", updatedResponse.data);
+
+        // Clear the search result and foods state after adding
+        setSearchResult(null);
+        setFoods([]);
+      } else {
+        // Display a message or handle the case where adding the food log exceeds the budget
+        console.log("Adding this food log exceeds the caloric budget!");
+      }
     } catch (error) {
-      console.error("Error posting data to the backend:", error);
+      console.error("Error posting or fetching data:", error);
     }
   };
 
+  //!============================================
+  // Handle key press event for fetching data on Enter key
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -131,23 +167,8 @@ export default function DashboardPage() {
     }
   };
 
-  useEffect(() => {
-    const getUserFromLocalStorage = () => {
-      const userData = localStorage.getItem("user");
-      if (userData) {
-        const user = jwtDecode(userData);
-        console.log("User data:", user);
-        dispatch({
-          type: "SET_USER",
-          payload: user,
-        });
-      }
-    };
-    getUserFromLocalStorage();
-  }, []);
-
-  const [caloricBudget, setCaloricBudget] = useState(null);
-
+  //!============================================
+  // Caloric budget calculation
   const calculateCalorieIntake = () => {
     const { age, weight, height, gender } = userData;
 
@@ -169,11 +190,16 @@ export default function DashboardPage() {
     }
   }, [userData]);
 
-  return (
-    <div className={styles.pageContainer}>
-      <Nav />
-      <div className={styles.dashboardContainer}>
-        <main className={styles.mainContent}>
+  //TODO============================================
+  // Render component
+// Render component
+return (
+  <div className={styles.pageContainer}>
+    <Nav />
+    <div className={styles.dashboardContainer}>
+      <div className={styles.mainContent}>
+        {/* Left Column - Total Protein, Total Carbs, Total Fats */}
+        <div className={styles.leftColumn}>
           <div>
             <h5>Total Protein</h5>
             <p>{totalProtein}g</p>
@@ -186,12 +212,22 @@ export default function DashboardPage() {
             <h5>Total Fats</h5>
             <p>{totalFats}g</p>
           </div>
+        </div>
+
+        {/* Center Column - Total Calories, Caloric Budget */}
+        <div className={styles.centerColumn}>
+          <div>
+            <h5>Total Calories</h5>
+            <p>{totalCalories}</p>
+          </div>
           <div>
             <h5>Caloric Budget</h5>
             <p>{caloricBudget}</p>
           </div>
-        </main>
+        </div>
       </div>
+
+      {/* Right Column - Search Input, API Info, Food Log History */}
       <div className={styles.inputContainer}>
         <div className={styles.mainContent}>
           <div>
@@ -221,8 +257,23 @@ export default function DashboardPage() {
               )}
             </div>
           )}
+
+          {/* Display the history of added food logs */}
+          <div className={styles.foodLogs}>
+            <h2>Food Log History</h2>
+            <ul>
+              {data &&
+                data.map((entry) => (
+                  <li key={entry.id}>
+                    {entry.food_name} - Calories: {entry.calories}
+                  </li>
+                ))}
+            </ul>
+          </div>
         </div>
       </div>
     </div>
-  );
+  </div>
+);
+
 }
