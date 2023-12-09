@@ -75,8 +75,7 @@ client.interceptors.response.use(
 
   const request = (opts) => {
     let options = {
-      ...opts,
-      headers: authHeader()
+      ...opts
     }
 
   const onSuccess = (response) => {

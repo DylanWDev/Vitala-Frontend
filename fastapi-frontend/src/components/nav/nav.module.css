@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+/* style={{ backgroundColor: "red", height: "100px", width: "100vw" }} */
+
+.navContainer {
+  font-family: 'Poppins', sans-serif;
+  background-color: #2f3031;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.customNavbarBrand{
+  color: azure;
+}
+/* .navIcons {
+  font-size: 20px;
+  color: black;
+  margin: 25px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  position: relative;
+  text-decoration: none;
+} */
+
+.navIcons:hover {
+  transform: scale(1.2);
+}
+
+/* .logo {
+  padding-top: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */

@@ -1,0 +1,57 @@
+ @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+
+ .pageContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mainContent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  margin-top: 20px;
+  width: 100vw;
+  height: 85vh;
+  padding: 20px;
+}
+
+.gridContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  gap: 20px;
+}
+
+.macroCaloriesContainer {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.macros,
+.calories {
+  display: flex;
+  flex-direction: column;
+}
+
+.columnItem {
+  margin-bottom: 10px;
+}
+
+.searchContent {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.input {
+  margin-bottom: 10px;
+}
+
+.apiInfo,
+.foodLogs {
+  margin-top: 10px;
+}
+
+ 

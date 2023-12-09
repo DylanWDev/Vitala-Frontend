@@ -1,0 +1,31 @@
+/* NutritionixApiExample.module.css */
+
+.inputContainer {
+  display: flex;
+}
+
+.mainContent {
+  text-align: center;
+  margin: auto;
+  
+  width: 75%;
+}
+
+.input {
+  margin: 20px; 
+  border: 3px solid black;
+  border-radius: 10px;
+  width: 75%;
+}
+
+.apiInfo {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.apiInfo p {
+  margin-bottom: 0px;
+  margin-left: 10px;
+}
