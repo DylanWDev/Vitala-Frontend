@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useGlobalState } from "@/context/GlobalState";
 import { jwtDecode } from "jwt-decode";
+import Nav from "@/components/Nav/Nav";
 
 function YourComponent() {
   const [age, setAge] = useState(0);
@@ -10,22 +11,28 @@ function YourComponent() {
   const [weightLbs, setWeightLbs] = useState(0);
   const [gender, setGender] = useState("");
   const [healthGoals, setHealthGoals] = useState("");
+  const [checkedFields, setCheckedFields] = useState([]);
 
   const { state, dispatch } = useGlobalState();
-  const [checkedFields, setCheckedFields] = useState([]);
 
   const handleInputChange = (setter) => (event) => {
     const inputValue = event.target.value;
     setter(inputValue);
   };
 
-  // Convert feet and inches to centimeters
+  const toggleCheckedField = (field) => {
+    setCheckedFields((prevCheckedFields) =>
+      prevCheckedFields.includes(field)
+        ? prevCheckedFields.filter((item) => item !== field)
+        : [...prevCheckedFields, field]
+    );
+  };
+
   const heightInCm = () => {
     const totalInches = parseInt(feet) * 12 + parseInt(inches);
     return Math.round(totalInches * 2.54);
   };
 
-  // Convert pounds to kilograms
   const weightInKg = () => {
     return Math.round(parseInt(weightLbs) / 2.205);
   };
@@ -45,43 +52,58 @@ function YourComponent() {
     getUserFromLocalStorage();
   }, []);
 
-  const handleUpdateAll = async () => {
-    // Prepare an object with all the fields to be updated
-    const updatedFields = {
-      age: checkedFields.includes("age") ? age : undefined,
-      height: checkedFields.includes("height") ? heightInCm() : undefined,
-      weight: checkedFields.includes("weight") ? weightInKg() : undefined,
-      gender: checkedFields.includes("gender") ? gender : undefined,
-      health_goals: checkedFields.includes("health_goals") ? healthGoals : undefined,
-    };
-
+  const handleUpdate = async (column, value) => {
     try {
+      let convertedValue = value;
+
+      if (column === "height") {
+        convertedValue = heightInCm();
+      } else if (column === "weight") {
+        convertedValue = weightInKg();
+      }
+
       const requestBody = {
         accept: "application/json",
-        data: updatedFields,
       };
 
       const response = await axios.put(
-        `http://127.0.0.1:8000/api/v1/users/data/${state.user.sub}`,
+        `http://127.0.0.1:8000/api/v1/users/data/${state.user.sub}?column_name=${column}&column_value=${convertedValue}`,
         requestBody
       );
 
-      console.log("Backend Response for Update All:", response.data);
+      console.log(`Backend Response for ${column}:`, response.data);
     } catch (error) {
-      console.error("Error updating all fields:", error);
+      console.error(`Error updating ${column}:`, error);
     }
   };
 
-  const handleCheckboxChange = (field) => {
-    setCheckedFields((prevFields) =>
-      prevFields.includes(field)
-        ? prevFields.filter((f) => f !== field)
-        : [...prevFields, field]
-    );
+  const handleBatchUpdate = async () => {
+    checkedFields.forEach(async (field) => {
+      switch (field) {
+        case "age":
+          await handleUpdate("age", age);
+          break;
+        case "height":
+          await handleUpdate("height", heightInCm());
+          break;
+        case "weight":
+          await handleUpdate("weight", weightInKg());
+          break;
+        case "gender":
+          await handleUpdate("gender", gender);
+          break;
+        case "health_goals":
+          await handleUpdate("health_goals", healthGoals);
+          break;
+        default:
+          break;
+      }
+    });
   };
 
   return (
     <>
+    <Nav/>
       <div className="container d-flex flex-column gap-3 justify-content-center align-items-center">
         <div>
           <div className="input-group mb-3">
@@ -91,6 +113,8 @@ function YourComponent() {
                 type="checkbox"
                 value=""
                 aria-label="Checkbox for following text input"
+                checked={checkedFields.includes("age")}
+                onChange={() => toggleCheckedField("age")}
               />
             </div>
             <input
@@ -99,8 +123,9 @@ function YourComponent() {
               aria-label="Text input with checkbox"
               value={age}
               onChange={handleInputChange(setAge)}
+              style={{ width: "150px" }} // Set the width here
             />
-            <button onClick={() => handleUpdate("age", age)}>Update Age</button>
+          
           </div>
         </div>
         <div>
@@ -112,16 +137,23 @@ function YourComponent() {
                 type="checkbox"
                 value=""
                 aria-label="Checkbox for following text input"
+                checked={checkedFields.includes("height")}
+                onChange={() => toggleCheckedField("height")}
               />
             </div>
-            <select value={feet} onChange={handleInputChange(setFeet)} className="form-select">
+            <select
+              value={feet}
+              onChange={handleInputChange(setFeet)}
+              className="form-select"
+              style={{ width: "150px" }} // Set the width here
+            >
               {Array.from({ length: 6 }, (_, index) => (
                 <option key={index + 1} value={(index + 1).toString()}>
                   {index + 1}
                 </option>
               ))}
             </select>
-            <button onClick={() => handleUpdate("height", heightInCm())}>Update Height</button>
+           
           </div>
         </div>
         <div>
@@ -133,16 +165,23 @@ function YourComponent() {
                 type="checkbox"
                 value=""
                 aria-label="Checkbox for following text input"
+                checked={checkedFields.includes("height")}
+                onChange={() => toggleCheckedField("height")}
               />
             </div>
-            <select value={inches} onChange={handleInputChange(setInches)} className="form-select">
+            <select
+              value={inches}
+              onChange={handleInputChange(setInches)}
+              className="form-select"
+              style={{ width: "150px" }} // Set the width here
+            >
               {Array.from({ length: 11 }, (_, index) => (
                 <option key={index + 1} value={(index + 1).toString()}>
                   {index + 1}
                 </option>
               ))}
             </select>
-            <button onClick={() => handleUpdate("height", heightInCm())}>Update Height</button>
+          
           </div>
         </div>
         <div>
@@ -154,6 +193,8 @@ function YourComponent() {
                 type="checkbox"
                 value=""
                 aria-label="Checkbox for following text input"
+                checked={checkedFields.includes("weight")}
+                onChange={() => toggleCheckedField("weight")}
               />
             </div>
             <input
@@ -161,8 +202,9 @@ function YourComponent() {
               className="form-control"
               value={weightLbs}
               onChange={handleInputChange(setWeightLbs)}
+              style={{ width: "150px" }} // Set the width here
             />
-            <button onClick={() => handleUpdate("weight", weightInKg())}>Update Weight</button>
+            
           </div>
         </div>
         <div>
@@ -174,6 +216,8 @@ function YourComponent() {
                 type="checkbox"
                 value=""
                 aria-label="Checkbox for following text input"
+                checked={checkedFields.includes("gender")}
+                onChange={() => toggleCheckedField("gender")}
               />
             </div>
             <input
@@ -181,8 +225,9 @@ function YourComponent() {
               className="form-control"
               value={gender}
               onChange={handleInputChange(setGender)}
+              style={{ width: "150px" }} // Set the width here
             />
-            <button onClick={() => handleUpdate("gender", gender)}>Update Gender</button>
+            
           </div>
         </div>
         <div>
@@ -194,6 +239,8 @@ function YourComponent() {
                 type="checkbox"
                 value=""
                 aria-label="Checkbox for following text input"
+                checked={checkedFields.includes("health_goals")}
+                onChange={() => toggleCheckedField("health_goals")}
               />
             </div>
             <input
@@ -201,11 +248,13 @@ function YourComponent() {
               className="form-control"
               value={healthGoals}
               onChange={handleInputChange(setHealthGoals)}
+              style={{ width: "150px" }} // Set the width here
             />
-            <button onClick={() => handleUpdate("health_goals", healthGoals)}>
-              Update Health Goals
-            </button>
+            
           </div>
+        </div>
+        <div>
+          <button onClick={handleBatchUpdate}>Update Checked Fields</button>
         </div>
       </div>
     </>
