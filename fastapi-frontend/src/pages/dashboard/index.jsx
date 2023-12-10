@@ -4,6 +4,8 @@ import Nav from "@/components/Nav/Nav";
 import { useGlobalState } from "@/context/GlobalState";
 import { jwtDecode } from "jwt-decode";
 import styles from "./DashboardPage.module.css";
+import { faPlus, faTrash, faMinus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function DashboardPage() {
   let [data, setData] = useState(null);
@@ -160,6 +162,24 @@ export default function DashboardPage() {
   };
 
   //!============================================
+
+  const handleDeleteEvent = async (foodLogId) => {
+    try {
+      // Send a request to delete the food log entry
+      await axios.delete(`http://127.0.0.1:8000/api/v1/foodlogs/${foodLogId}`);
+  
+      // Fetch updated data after successful deletion
+      const updatedResponse = await axios.get(
+        "http://127.0.0.1:8000/api/v1/foodlogs/all_food_logs"
+      );
+      setData(updatedResponse.data);
+      console.log("Updated Food Logs:", updatedResponse.data);
+    } catch (error) {
+      console.error("Error deleting food log entry:", error);
+    }
+  };
+
+  //!============================================
   // Handle key press event for fetching data on Enter key
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -197,13 +217,10 @@ export default function DashboardPage() {
   }, [userData]);
 
   //TODO============================================
-  // Render component
-// Render component
-// Render component
-// Render component
+
 return (
   <>
-    <div><Nav /></div>
+    <div className={styles.sticky}><Nav /></div>
     <div className={styles.pageContainer}>
       <div className={styles.mainContent}>
         <div className={styles.gridContainer}>
@@ -260,7 +277,7 @@ return (
                         {searchResult.foods[0].serving_qty}{" "}
                         {searchResult.foods[0].serving_unit}
                       </p>
-                      <button onClick={handleClickEvent}>+</button>
+                      <button onClick={handleClickEvent}><FontAwesomeIcon icon={faPlus} /></button>
                     </div>
                   )}
                 </div>
@@ -269,14 +286,19 @@ return (
             {/* Display the history of added food logs */}
             <div className={`${styles.foodLogs}`}>
               <h2>Food Log History</h2>
-              <ul>
-                {data &&
-                  data.map((entry) => (
-                    <li key={entry.id}>
-                      {entry.food_name} - Calories: {entry.calories}
-                    </li>
-                  ))}
-              </ul>
+              <div className={`${styles.history}`}>
+                <ul>
+                  {data &&
+                    data.map((entry) => (
+                      <li key={entry.id}>
+                        <b>{entry.food_name}:</b> ‎ Calories: {entry.calories}
+                        <button onClick={() => handleDeleteEvent(entry.id)}>
+                        <FontAwesomeIcon icon={faMinus} />
+                        </button>
+                      </li>
+                    ))}
+                </ul>
+              </div>
             </div>
           </div>
         </div>

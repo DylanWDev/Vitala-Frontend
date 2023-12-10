@@ -4,16 +4,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
+  background-color: #212223;
 }
 
 .mainContent {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid black;
-  margin-top: 20px;
-  width: 100vw;
+  margin: 20px;
+  flex: 70%;
   padding: 20px;
+  height: 85vh;
 }
 
 .gridContainer {
@@ -21,12 +23,20 @@
   grid-template-columns: 1fr 1fr;
   width: 100%;
   gap: 20px;
+  height: 100%;
+}
+
+.macroCaloriesContainer,
+.searchContent,
+.foodLogs {
+  background-color: #2f3031;
+  color: white;
+  border-radius: 8px;
 }
 
 .macroCaloriesContainer {
-  border: 1px solid #ccc;
   padding: 10px;
-  flex: 2; /* Adjust the flex value to control the width */
+  color: white;
 }
 
 .macros,
@@ -35,43 +45,95 @@
   flex-direction: column;
 }
 
-.columnItem {
-  margin-bottom: 10px;
-}
-
 .searchAndHistory {
-  border: 1px solid black;
   display: flex;
   flex-direction: column;
   gap: 20px;
-  flex: 1; /* Adjust the flex value to control the width */
+  flex: 1;
 }
 
 .searchContent {
-  border: 1px solid #ccc;
   padding: 10px;
+  flex: 30%;
+  overflow-y: auto;
+  border-radius: 8px;
+}
+
+.history {
+  font-size: 17px;
+  overflow-y: auto; 
+  height: 50vh;
+}
+
+.history button {
+  border-radius: 5px;
+  margin-left: 10px;
+  width: 50px;
+  color: white;
+  border: none;
+  background-color: rgb(202, 56, 56);
+  box-shadow: 0 0 8px rgba(244, 26, 26, 0.8);
 }
 
 .input {
   margin-bottom: 10px;
   width: 100%;
+  border-radius: 8px;
 }
 
 .foodLogs {
-  overflow-y: auto;
-  border: 1px solid #ccc;
+  padding: 10px;
+  flex: 70%;
+  border-radius: 8px;
+}
+
+.foodLogs h2 {
+  text-align: center;
 }
 
 .foodLogs ul {
-  list-style: none; /* Remove default list styles */
-  padding: 0; /* Remove default padding */
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .foodLogs li {
-  margin-bottom: 8px; /* Add margin between list items */
+  margin-bottom: 8px;
 }
 
 .searchGap {
-  height: 20px; /* Adjust the height of the gap */
-  grid-column: 1 / span 2; /* Spans across both columns */
+  height: 20px;
+  grid-column: 1 / span 2;
+}
+
+
+.apiInfo {
+  margin-top: 2vh;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  text-align: center;
+  padding: 10px;
+}
+
+.apiInfo p {
+  margin-bottom: 0px;
+}
+
+.apiInfo h3 {
+  margin-right: 10px;
+}
+
+.apiInfo button {
+  border-radius: 5px;
+  margin-left: 10px;
+  width: 50px;
+  color: white;
+  border: none;
+  background-color: rgb(97, 204, 97);
+  box-shadow: 0 0 8px rgba(114, 238, 114, 0.8);
+}
+
+.sticky {
+  position: sticky;
 }
