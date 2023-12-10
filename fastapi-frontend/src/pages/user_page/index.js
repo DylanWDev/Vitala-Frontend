@@ -9,10 +9,10 @@ function YourComponent() {
   const [inches, setInches] = useState("1");
   const [weightLbs, setWeightLbs] = useState(0);
   const [gender, setGender] = useState("");
-  const [activityLevel, setActivityLevel] = useState(0);
   const [healthGoals, setHealthGoals] = useState("");
 
   const { state, dispatch } = useGlobalState();
+  const [checkedFields, setCheckedFields] = useState([]);
 
   const handleInputChange = (setter) => (event) => {
     const inputValue = event.target.value;
@@ -45,79 +45,168 @@ function YourComponent() {
     getUserFromLocalStorage();
   }, []);
 
-  const handleUpdate = async (column, value) => {
+  const handleUpdateAll = async () => {
+    // Prepare an object with all the fields to be updated
+    const updatedFields = {
+      age: checkedFields.includes("age") ? age : undefined,
+      height: checkedFields.includes("height") ? heightInCm() : undefined,
+      weight: checkedFields.includes("weight") ? weightInKg() : undefined,
+      gender: checkedFields.includes("gender") ? gender : undefined,
+      health_goals: checkedFields.includes("health_goals") ? healthGoals : undefined,
+    };
+
     try {
-      // Convert values before sending to the database
-      let convertedValue = value;
-
-      if (column === "height") {
-        convertedValue = heightInCm();
-      } else if (column === "weight") {
-        convertedValue = weightInKg();
-      }
-
       const requestBody = {
         accept: "application/json",
+        data: updatedFields,
       };
 
       const response = await axios.put(
-        `http://127.0.0.1:8000/api/v1/users/data/${state.user.sub}?column_name=${column}&column_value=${convertedValue}`,
+        `http://127.0.0.1:8000/api/v1/users/data/${state.user.sub}`,
         requestBody
       );
 
-      console.log(`Backend Response for ${column}:`, response.data);
+      console.log("Backend Response for Update All:", response.data);
     } catch (error) {
-      console.error(`Error updating ${column}:`, error);
+      console.error("Error updating all fields:", error);
     }
+  };
+
+  const handleCheckboxChange = (field) => {
+    setCheckedFields((prevFields) =>
+      prevFields.includes(field)
+        ? prevFields.filter((f) => f !== field)
+        : [...prevFields, field]
+    );
   };
 
   return (
     <>
-      <div>
-        <label>Age:</label>
-        <input value={age} onChange={handleInputChange(setAge)} />
-        <button onClick={() => handleUpdate("age", age)}>Update Age</button>
-      </div>
-      <div>
-        <label>Height (feet):</label>
-        <select value={feet} onChange={handleInputChange(setFeet)}>
-          {Array.from({ length: 6 }, (_, index) => (
-            <option key={index + 1} value={(index + 1).toString()}>
-              {index + 1}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <label>Height (inches):</label>
-        <select value={inches} onChange={handleInputChange(setInches)}>
-          {Array.from({ length: 11 }, (_, index) => (
-            <option key={index + 1} value={(index + 1).toString()}>
-              {index + 1}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div>
-        <label>Weight (lbs):</label>
-        <input value={weightLbs} onChange={handleInputChange(setWeightLbs)} />
-      </div>
-      <button onClick={() => handleUpdate("height", heightInCm())}>Update Height</button>
-      <button onClick={() => handleUpdate("weight", weightInKg())}>Update Weight</button>
-      <div>
-        <label>Gender:</label>
-        <input value={gender} onChange={handleInputChange(setGender)} />
-        <button onClick={() => handleUpdate("gender", gender)}>Update Gender</button>
-      </div>
-      <div>
-        <label>Activity Level:</label>
-        <input value={activityLevel} onChange={handleInputChange(setActivityLevel)} />
-        <button onClick={() => handleUpdate("activity_level", activityLevel)}>Update Activity Level</button>
-      </div>
-      <div>
-        <label>Health Goals:</label>
-        <input value={healthGoals} onChange={handleInputChange(setHealthGoals)} />
-        <button onClick={() => handleUpdate("health_goals", healthGoals)}>Update Health Goals</button>
+      <div className="container d-flex flex-column gap-3 justify-content-center align-items-center">
+        <div>
+          <div className="input-group mb-3">
+            <div className="input-group-text">
+              <input
+                className="form-check-input mt-0"
+                type="checkbox"
+                value=""
+                aria-label="Checkbox for following text input"
+              />
+            </div>
+            <input
+              type="text"
+              className="form-control"
+              aria-label="Text input with checkbox"
+              value={age}
+              onChange={handleInputChange(setAge)}
+            />
+            <button onClick={() => handleUpdate("age", age)}>Update Age</button>
+          </div>
+        </div>
+        <div>
+          <label>Height (feet):</label>
+          <div className="input-group mb-3">
+            <div className="input-group-text">
+              <input
+                className="form-check-input mt-0"
+                type="checkbox"
+                value=""
+                aria-label="Checkbox for following text input"
+              />
+            </div>
+            <select value={feet} onChange={handleInputChange(setFeet)} className="form-select">
+              {Array.from({ length: 6 }, (_, index) => (
+                <option key={index + 1} value={(index + 1).toString()}>
+                  {index + 1}
+                </option>
+              ))}
+            </select>
+            <button onClick={() => handleUpdate("height", heightInCm())}>Update Height</button>
+          </div>
+        </div>
+        <div>
+          <label>Height (inches):</label>
+          <div className="input-group mb-3">
+            <div className="input-group-text">
+              <input
+                className="form-check-input mt-0"
+                type="checkbox"
+                value=""
+                aria-label="Checkbox for following text input"
+              />
+            </div>
+            <select value={inches} onChange={handleInputChange(setInches)} className="form-select">
+              {Array.from({ length: 11 }, (_, index) => (
+                <option key={index + 1} value={(index + 1).toString()}>
+                  {index + 1}
+                </option>
+              ))}
+            </select>
+            <button onClick={() => handleUpdate("height", heightInCm())}>Update Height</button>
+          </div>
+        </div>
+        <div>
+          <label>Weight (lbs):</label>
+          <div className="input-group mb-3">
+            <div className="input-group-text">
+              <input
+                className="form-check-input mt-0"
+                type="checkbox"
+                value=""
+                aria-label="Checkbox for following text input"
+              />
+            </div>
+            <input
+              type="text"
+              className="form-control"
+              value={weightLbs}
+              onChange={handleInputChange(setWeightLbs)}
+            />
+            <button onClick={() => handleUpdate("weight", weightInKg())}>Update Weight</button>
+          </div>
+        </div>
+        <div>
+          <label>Gender:</label>
+          <div className="input-group mb-3">
+            <div className="input-group-text">
+              <input
+                className="form-check-input mt-0"
+                type="checkbox"
+                value=""
+                aria-label="Checkbox for following text input"
+              />
+            </div>
+            <input
+              type="text"
+              className="form-control"
+              value={gender}
+              onChange={handleInputChange(setGender)}
+            />
+            <button onClick={() => handleUpdate("gender", gender)}>Update Gender</button>
+          </div>
+        </div>
+        <div>
+          <label>Health Goals:</label>
+          <div className="input-group mb-3">
+            <div className="input-group-text">
+              <input
+                className="form-check-input mt-0"
+                type="checkbox"
+                value=""
+                aria-label="Checkbox for following text input"
+              />
+            </div>
+            <input
+              type="text"
+              className="form-control"
+              value={healthGoals}
+              onChange={handleInputChange(setHealthGoals)}
+            />
+            <button onClick={() => handleUpdate("health_goals", healthGoals)}>
+              Update Health Goals
+            </button>
+          </div>
+        </div>
       </div>
     </>
   );

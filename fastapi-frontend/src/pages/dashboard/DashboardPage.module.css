@@ -9,6 +9,11 @@
   background-color: #212223;
 }
 
+.pageContainer p {
+  margin: 0;
+  color: #a4a4a4;
+}
+
 .mainContent {
   display: flex;
   justify-content: center;
@@ -36,21 +41,30 @@
 }
 
 .macroCaloriesContainer {
-  padding: 10px;
+  padding: 15px;
   color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column-reverse;
+  text-align: center;
 }
 
-.macros,
-.calories {
+.macros{
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center; 
+  width: 100%;
 }
+
 
 .searchAndHistory {
   display: flex;
   flex-direction: column;
   gap: 20px;
   flex: 1;
+  font-size: 15px;
 }
 
 .searchContent {
@@ -60,15 +74,19 @@
   border-radius: 8px;
 }
 
+.searchContent input {
+  /* height: 35px; */
+  border: none;
+}
+
 .history {
-  font-size: 17px;
   overflow-y: auto; 
   height: 50vh;
 }
 
 .history button {
   border-radius: 5px;
-  margin-left: 10px;
+  margin-left: auto;
   width: 50px;
   color: white;
   border: none;
@@ -99,7 +117,12 @@
 }
 
 .foodLogs li {
-  margin-bottom: 8px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.foodLogs button {
+  float: right;
 }
 
 .searchGap {
@@ -113,7 +136,6 @@
   justify-content: start;
   align-items: center;
   text-align: center;
-  padding: 10px;
 }
 
 .apiInfo p {
@@ -126,14 +148,10 @@
 
 .apiInfo button {
   border-radius: 5px;
-  margin-left: 10px;
+  margin-left: auto;
   width: 50px;
   color: white;
   border: none;
-  background-color: rgb(97, 204, 97);
+  background-color: #61cc61;
   box-shadow: 0 0 8px rgba(114, 238, 114, 0.8);
-}
-
-.sticky {
-  position: sticky;
 }
