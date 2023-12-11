@@ -94,6 +94,10 @@
   box-shadow: 0 0 8px rgba(244, 26, 26, 0.8);
 }
 
+.history button:hover {
+  background-color: rgb(189, 54, 54);
+}
+
 .input {
   margin-bottom: 10px;
   width: 100%;
@@ -154,4 +158,9 @@
   border: none;
   background-color: #61cc61;
   box-shadow: 0 0 8px rgba(114, 238, 114, 0.8);
+}
+
+
+.apiInfo button:hover {
+  background-color: #59bb59;
 }

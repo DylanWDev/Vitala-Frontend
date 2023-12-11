@@ -7,7 +7,7 @@ const Nav = () => {
     <div className={styles.navContainer}>
     <nav className={`navbar navbar-expand-lg navbar-light ${styles.customNavbar}`}>
       <div className="container-fluid">
-        <a className={`navbar-brand ${styles.customNavbarBrand}`} href="./pages/">
+        <a className={`navbar-brand ${styles.customNavbarBrand}`} href="./dashboard">
           Vitala
         </a>
         <button
@@ -24,13 +24,13 @@ const Nav = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav">
             <li className="nav-item">
-              <a className={`nav-link active ${styles.customNavLink}`} aria-current="page" href="#">
+              <a className={`nav-link active ${styles.customNavLink}`} aria-current="page" href="./dashboard">
                 Dashboard
               </a>
             </li>
             <li className="nav-item">
-              <a className={`nav-link ${styles.customNavLink}`} href="#">
-                Calendar
+              <a className={`nav-link ${styles.customNavLink}`} href="./user_page">
+                User
               </a>
             </li>
           </ul>

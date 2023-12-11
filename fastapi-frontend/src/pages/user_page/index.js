@@ -102,10 +102,11 @@ function YourComponent() {
   };
 
   return (
-    <>
+<div style={{ backgroundColor: "#212223", minHeight: "100vh" }}>
     <Nav/>
-      <div className="container d-flex flex-column gap-3 justify-content-center align-items-center">
+      <div className="container d-flex flex-column gap-2 justify-content-center align-items-center p-5 fw-bold mt-5" style={{backgroundColor: "#2f3031", color: "white"}}>
         <div>
+        <label>Age:</label>
           <div className="input-group mb-3">
             <div className="input-group-text">
               <input
@@ -123,7 +124,7 @@ function YourComponent() {
               aria-label="Text input with checkbox"
               value={age}
               onChange={handleInputChange(setAge)}
-              style={{ width: "150px" }} // Set the width here
+              style={{ width: "150px" }}
             />
           
           </div>
@@ -145,7 +146,7 @@ function YourComponent() {
               value={feet}
               onChange={handleInputChange(setFeet)}
               className="form-select"
-              style={{ width: "150px" }} // Set the width here
+              style={{ width: "150px" }}
             >
               {Array.from({ length: 6 }, (_, index) => (
                 <option key={index + 1} value={(index + 1).toString()}>
@@ -173,7 +174,7 @@ function YourComponent() {
               value={inches}
               onChange={handleInputChange(setInches)}
               className="form-select"
-              style={{ width: "150px" }} // Set the width here
+              style={{ width: "150px" }} 
             >
               {Array.from({ length: 11 }, (_, index) => (
                 <option key={index + 1} value={(index + 1).toString()}>
@@ -202,7 +203,7 @@ function YourComponent() {
               className="form-control"
               value={weightLbs}
               onChange={handleInputChange(setWeightLbs)}
-              style={{ width: "150px" }} // Set the width here
+              style={{ width: "150px" }} 
             />
             
           </div>
@@ -225,7 +226,7 @@ function YourComponent() {
               className="form-control"
               value={gender}
               onChange={handleInputChange(setGender)}
-              style={{ width: "150px" }} // Set the width here
+              style={{ width: "150px" }}
             />
             
           </div>
@@ -254,10 +255,10 @@ function YourComponent() {
           </div>
         </div>
         <div>
-          <button onClick={handleBatchUpdate}>Update Checked Fields</button>
+          <button className="btn btn-primary" onClick={handleBatchUpdate} style={{width: "150px", backgroundColor: "#61cc61", border: "none", boxShadow: "0 0 8px rgba(114, 238, 114, 0.8)"}}>Update</button>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
