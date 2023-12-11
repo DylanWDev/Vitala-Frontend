@@ -8,7 +8,6 @@ import { faPlus, faMinus, faMagnifyingGlass } from "@fortawesome/free-solid-svg-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
-import Toast from "@/components/toast/Toast";
 
 
 // Health goal options

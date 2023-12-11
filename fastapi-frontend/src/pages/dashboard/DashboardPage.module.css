@@ -170,10 +170,3 @@
   background-color: #59bb59;
 }
 
-.sticky a :active {
-  color: white;
-}
-
-.sticky a {
-  color: lightgray;
-}
