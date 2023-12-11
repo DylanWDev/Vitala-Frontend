@@ -1,25 +1,20 @@
-import React, { useState } from 'react';
-import { Container } from 'react-bootstrap';
+import React from 'react';
 
-const Toast = () => {
-    const [showToast, setShowToast] = useState(false);
+  import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
   
-    const toggleToast = () => setShowToast(!showToast);
+  const notify = () => {
+    toast("Wow so easy!");
+};
   
+  function Toast(){
+
     return (
-      <Container className="p-3">
-        {/* Button to Toggle Toast */}
-        <button onClick={toggleToast}>Toggle Toast</button>
-  
-        {/* Toast Component */}
-        <Toast show={showToast} onClose={toggleToast}>
-          <Toast.Header>
-            <strong className="me-auto">My Toast</strong>
-          </Toast.Header>
-          <Toast.Body>This is a toast message!</Toast.Body>
-        </Toast>
-      </Container>
+      <div>
+        <button onClick={notify}>Notify!</button>
+        <ToastContainer />
+      </div>
     );
-  };
-  
-  export default Toast;
+  }
+
+export default Toast()

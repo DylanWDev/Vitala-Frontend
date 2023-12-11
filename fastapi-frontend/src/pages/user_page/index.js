@@ -110,7 +110,7 @@ function YourComponent() {
           <div className="input-group mb-3">
             <div className="input-group-text">
               <input
-                className="form-check-input mt-0"
+                className="form-check-input "
                 type="checkbox"
                 value=""
                 aria-label="Checkbox for following text input"

@@ -75,9 +75,13 @@
   border-radius: 8px;
 }
 
-.searchContent input {
-  /* height: 35px; */
+.searchContent input span {
   border: none;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.searchContent span {
+  cursor: pointer;
 }
 
 .history {

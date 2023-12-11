@@ -8,6 +8,8 @@ import { faPlus, faMinus, faMagnifyingGlass } from "@fortawesome/free-solid-svg-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import Toast from "@/components/toast/Toast";
+
 
 // Health goal options
 const HEALTH_GOAL_OPTIONS = {
@@ -68,7 +70,7 @@ export default function DashboardPage() {
       const userData = localStorage.getItem("user");
       if (userData) {
         const user = jwtDecode(userData);
-        console.log("User data:", user);
+        console.log("User data:", user);  
         dispatch({
           type: "SET_USER",
           payload: user,
@@ -163,8 +165,7 @@ export default function DashboardPage() {
         clearSearchBar();
       } else {
         // Display a message or handle the case where adding the food log exceeds the budget
-        console.log("Adding this food log exceeds the caloric budget!");
-        toggleToast();
+        console.log('Adding this food log exceeds the caloric budget!');
       }
     } catch (error) {
       console.error("Error posting or fetching data:", error);
@@ -259,15 +260,16 @@ export default function DashboardPage() {
 
   //!================================================================================
 
-  // const [showToast, setShowToast] = useState(false);
-  // const toggleToast = () => setShowToast(!showToast);
+  const handleSearchClick = () => {
+    fetchData();
+  };
 
 
   //TODO============================================
 
   return (
     <>
-      <div className={styles.sticky}><Nav activeLink = "home" /></div>
+      <div ><Nav /></div>
       <div className={styles.pageContainer}>
         <div className={styles.mainContent}>
           <div className={styles.gridContainer}>
@@ -275,6 +277,7 @@ export default function DashboardPage() {
             <div className={styles.macroCaloriesContainer}>
               <div className={styles.macros}>
                 <div className={styles.columnItem}>
+                  
                   <h5>Protein</h5>
                   <p>{totalProtein}g</p>
                 </div>
@@ -308,10 +311,10 @@ export default function DashboardPage() {
               {/* Right Column - Search Input, API Info, Food Log History */}
               <div className={styles.searchContent}>
                 <div className="input-group mb-3">
-                  <span className="input-group-text" id="basic-addon1"><FontAwesomeIcon icon={faMagnifyingGlass} /></span>
+                  <span className="input-group-text" id="basic-addon1" onClick={handleSearchClick}><FontAwesomeIcon icon={faMagnifyingGlass} /></span>
                   <input
                     type="text"
-                    className="form-control"
+                    className={"form-control"}
                     placeholder="Search for a food"
                     value={foodQuery}
                     onChange={(e) => setFoodQuery(e.target.value)}
@@ -327,7 +330,7 @@ export default function DashboardPage() {
                         </h3>
                         <p>
                           Calories: {searchResult.foods[0].nf_calories}, Serving:{" "}
-                          {searchResult.foods[0].serving_qty}{" "}
+                          {searchResult.foods[0].serving_qty}{""}
                           {searchResult.foods[0].serving_unit}
                         </p>
                         <button onClick={handleClickEvent}><FontAwesomeIcon icon={faPlus} /></button>
