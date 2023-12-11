@@ -38,6 +38,7 @@
   background-color: #2f3031;
   color: white;
   border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
 }
 
 .macroCaloriesContainer {
@@ -163,4 +164,12 @@
 
 .apiInfo button:hover {
   background-color: #59bb59;
+}
+
+.sticky a :active {
+  color: white;
+}
+
+.sticky a {
+  color: lightgray;
 }

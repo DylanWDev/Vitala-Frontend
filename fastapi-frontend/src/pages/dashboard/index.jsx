@@ -267,7 +267,7 @@ export default function DashboardPage() {
 
   return (
     <>
-      <div className={styles.sticky}><Nav /></div>
+      <div className={styles.sticky}><Nav activeLink = "home" /></div>
       <div className={styles.pageContainer}>
         <div className={styles.mainContent}>
           <div className={styles.gridContainer}>

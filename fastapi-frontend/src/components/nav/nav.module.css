@@ -10,16 +10,23 @@
 }
 
 .customNavbarBrand{
-  color: azure;
+  color: rgb(8, 109, 106);
+  font-weight: bold;
+  font-size: x-large;
+}
+
+.customNavbarBrand:hover {
+  color: rgb(8, 109, 106);
 }
 
 .navIcons:hover {
   transform: scale(1.2);
 }
 
-/* .logo {
-  padding-top: 25px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} */
+.customNavLink {
+  color: white
+}
+
+.chosen {
+  color: aquamarine;
+}

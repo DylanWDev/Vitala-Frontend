@@ -103,7 +103,7 @@ function YourComponent() {
 
   return (
 <div style={{ backgroundColor: "#212223", minHeight: "100vh" }}>
-    <Nav/>
+    <Nav activeLink = "user"/>
       <div className="container d-flex flex-column gap-2 justify-content-center align-items-center p-5 fw-bold mt-5" style={{backgroundColor: "#2f3031", color: "white"}}>
         <div>
         <label>Age:</label>
