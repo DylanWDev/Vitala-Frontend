@@ -37,7 +37,7 @@ function RegisterPage() {
           payload: data,
         });
         console.log("Login success");
-        router.push("/");
+        router.push("/login");
       } else {
         console.log("Login failed");
         dispatch({ type: "LOGOUT_USER" });
@@ -51,7 +51,7 @@ function RegisterPage() {
     <div className={`${styles.container} ${styles.overlay}`}>
       <div className={styles.formContainer}>
         <h1 className={styles.h1}>Sign Up</h1>
-        <form>
+        <form onSubmit={handleRegister}>
           <div className={styles.emailFlex}>
             <input
               className={styles.inputEmail}
@@ -112,7 +112,6 @@ function RegisterPage() {
       </div>
     </div>
   );
-  
 }
 
 export default RegisterPage;

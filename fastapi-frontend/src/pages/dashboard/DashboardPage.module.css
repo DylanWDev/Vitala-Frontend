@@ -1,21 +1,27 @@
- @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+/* YourComponent.module.css or your actual stylesheet */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-
- .pageContainer {
+.pageContainer {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100vh;
+  background-color: #212223;
+}
+
+.pageContainer p {
+  margin: 0;
+  color: #a4a4a4;
 }
 
 .mainContent {
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid black;
-  margin-top: 20px;
-  width: 100vw;
-  height: 85vh;
+  margin: 20px;
+  flex: 70%;
   padding: 20px;
+  height: 85vh;
 }
 
 .gridContainer {
@@ -23,35 +29,144 @@
   grid-template-columns: 1fr 1fr;
   width: 100%;
   gap: 20px;
+  height: 100%;
+}
+
+.macroCaloriesContainer,
+.searchContent,
+.foodLogs {
+  background-color: #2f3031;
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
 }
 
 .macroCaloriesContainer {
-  border: 1px solid #ccc;
-  padding: 10px;
+  padding: 15px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column-reverse;
+  text-align: center;
 }
 
-.macros,
-.calories {
+.macros{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center; 
+  width: 100%;
+}
+
+
+.searchAndHistory {
   display: flex;
   flex-direction: column;
-}
-
-.columnItem {
-  margin-bottom: 10px;
+  gap: 20px;
+  flex: 1;
+  font-size: 15px;
 }
 
 .searchContent {
-  border: 1px solid #ccc;
   padding: 10px;
+  flex: 30%;
+  overflow-y: auto;
+  border-radius: 8px;
+}
+
+.searchContent input span {
+  border: none;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.searchContent span {
+  cursor: pointer;
+}
+
+.history {
+  overflow-y: auto; 
+  height: 50vh;
+}
+
+.history button {
+  border-radius: 5px;
+  margin-left: auto;
+  width: 50px;
+  color: white;
+  border: none;
+  background-color: rgb(202, 56, 56);
+  box-shadow: 0 0 8px rgba(244, 26, 26, 0.8);
+}
+
+.history button:hover {
+  background-color: rgb(189, 54, 54);
 }
 
 .input {
   margin-bottom: 10px;
+  width: 100%;
+  border-radius: 8px;
 }
 
-.apiInfo,
 .foodLogs {
-  margin-top: 10px;
+  padding: 10px;
+  flex: 70%;
+  border-radius: 8px;
 }
 
- 
+.foodLogs h2 {
+  text-align: center;
+}
+
+.foodLogs ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.foodLogs li {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.foodLogs button {
+  float: right;
+}
+
+.searchGap {
+  height: 20px;
+  grid-column: 1 / span 2;
+}
+
+.apiInfo {
+  margin-top: 2vh;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  text-align: center;
+}
+
+.apiInfo p {
+  margin-bottom: 0px;
+}
+
+.apiInfo h3 {
+  margin-right: 10px;
+}
+
+.apiInfo button {
+  border-radius: 5px;
+  margin-left: auto;
+  width: 50px;
+  color: white;
+  border: none;
+  background-color: #61cc61;
+  box-shadow: 0 0 8px rgba(114, 238, 114, 0.8);
+}
+
+
+.apiInfo button:hover {
+  background-color: #59bb59;
+}
+

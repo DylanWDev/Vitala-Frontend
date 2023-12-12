@@ -26,7 +26,7 @@ function LoginPage() {
               payload: data,
             });
             console.log("Login success");
-            router.push("/");
+            router.push("/user_page");
           } else {
             console.log("Login failed");
             dispatch({ type: "LOGOUT_USER" });
@@ -68,7 +68,9 @@ function LoginPage() {
               minLength="8"
             />
           </div>
-          <button className={styles.loginButton} type="submit">Login</button>
+          <button className={styles.loginButton} type="submit">
+            Login
+          </button>
           <div className={styles.buttonSeperator}></div>
         </form>
         <p className={styles.link}>

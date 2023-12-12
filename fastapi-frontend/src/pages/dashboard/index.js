@@ -4,6 +4,18 @@ import Nav from "@/components/Nav/Nav";
 import { useGlobalState } from "@/context/GlobalState";
 import { jwtDecode } from "jwt-decode";
 import styles from "./DashboardPage.module.css";
+import { faPlus, faMinus, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
+
+
+// Health goal options
+const HEALTH_GOAL_OPTIONS = {
+  MAINTAIN: "maintain",
+  GAIN: "gain",
+  LOSE: "lose",
+};
 
 export default function DashboardPage() {
   let [data, setData] = useState(null);
@@ -57,7 +69,7 @@ export default function DashboardPage() {
       const userData = localStorage.getItem("user");
       if (userData) {
         const user = jwtDecode(userData);
-        console.log("User data:", user);
+        console.log("User data:", user);  
         dispatch({
           type: "SET_USER",
           payload: user,
@@ -147,14 +159,33 @@ export default function DashboardPage() {
         console.log("Updated Food Logs:", updatedResponse.data);
 
         // Clear the search result and foods state after adding
-        setSearchResult(null);
-        setFoods([]);
+        // setSearchResult(null);
+        // setFoods([]);
+        clearSearchBar();
       } else {
         // Display a message or handle the case where adding the food log exceeds the budget
-        console.log("Adding this food log exceeds the caloric budget!");
+        console.log('Adding this food log exceeds the caloric budget!');
       }
     } catch (error) {
       console.error("Error posting or fetching data:", error);
+    }
+  };
+
+  //!============================================
+
+  const handleDeleteEvent = async (foodLogId) => {
+    try {
+      // Send a request to delete the food log entry
+      await axios.delete(`http://127.0.0.1:8000/api/v1/foodlogs/${foodLogId}`);
+  
+      // Fetch updated data after successful deletion
+      const updatedResponse = await axios.get(
+        "http://127.0.0.1:8000/api/v1/foodlogs/all_food_logs"
+      );
+      setData(updatedResponse.data);
+      console.log("Updated Food Logs:", updatedResponse.data);
+    } catch (error) {
+      console.error("Error deleting food log entry:", error);
     }
   };
 
@@ -168,9 +199,15 @@ export default function DashboardPage() {
   };
 
   //!============================================
+  const clearSearchBar = () => {
+    setFoodQuery("")
+  }
+
   // Caloric budget calculation
   const calculateCalorieIntake = () => {
-    const { age, weight, height, gender } = userData;
+    if (!userData) return;
+
+    const { age, weight, height, gender, health_goals } = userData;
 
     // Calculate BMR
     let bmr;
@@ -180,8 +217,16 @@ export default function DashboardPage() {
       bmr = 655 + 4.35 * weight + 4.7 * height - 4.7 * age;
     }
 
+    // Adjust calories based on health goal from user data
+    let adjustedCaloricBudget = bmr;
+    if (health_goals === HEALTH_GOAL_OPTIONS.GAIN) {
+      adjustedCaloricBudget += 300;
+    } else if (health_goals === HEALTH_GOAL_OPTIONS.LOSE) {
+      adjustedCaloricBudget -= 300;
+    }
+
     // Set the caloric budget in state
-    setCaloricBudget(Math.round(bmr));
+    setCaloricBudget(Math.round(adjustedCaloricBudget));
   };
 
   useEffect(() => {
@@ -190,34 +235,67 @@ export default function DashboardPage() {
     }
   }, [userData]);
 
-  //TODO============================================
-  // Render component
-// Render component
-return (
-  <>
-    <div><Nav /></div>
-    <div className={styles.pageContainer}>
-      <div className={styles.mainContent}>
-        <div className={styles.gridContainer}>
-          {/* Left Column - Macros and Calories */}
-          <div className={styles.macroCaloriesContainer}>
-            <div className={styles.macros}>
-              <div className={styles.columnItem}>
-                <h5>Protein</h5>
-                <p>{totalProtein}g</p>
-              </div>
-              <div className={styles.columnItem}>
-                <h5>Carbs</h5>
-                <p>{totalCarbs}g</p>
-              </div>
-              <div className={styles.columnItem}>
-                <h5>Fats</h5>
-                <p>{totalFats}g</p>
-              </div>
-            </div>
+  //!===================================================================================
 
-            <div className={styles.calories}>
+  const calculateProgress = () => {
+    // Calculate the percentage of calories consumed
+    const percentage = (totalCalories / caloricBudget) * 100;
+    return percentage > 100 ? 100 : percentage;
+  };
+
+  const progress = calculateProgress()
+
+  const calculateWholeNumberPercentage = () => {
+    // Calculate the whole number percentage of calories consumed
+    let percentage = Math.round((totalCalories / caloricBudget) * 100);
+    if (isNaN(percentage)){
+        percentage = 0
+    }
+
+    return percentage > 100 ? 100 : percentage;
+  };
+  
+  const wholeNumberPercentage = calculateWholeNumberPercentage();
+
+  //!================================================================================
+
+  const handleSearchClick = () => {
+    fetchData();
+  };
+
+
+  //TODO============================================
+
+  return (
+    <>
+      <div ><Nav /></div>
+      <div className={styles.pageContainer}>
+        <div className={styles.mainContent}>
+          <div className={styles.gridContainer}>
+            {/* Left Column - Macros and Calories */}
+            <div className={styles.macroCaloriesContainer}>
+              <div className={styles.macros}>
+                <div className={styles.columnItem}>
+                  
+                  <h5>Protein</h5>
+                  <p>{totalProtein}g</p>
+                </div>
+                <div className={styles.columnItem}>
+                  <h5>Carbs</h5>
+                  <p>{totalCarbs}g</p>
+                </div>
+                <div className={styles.columnItem}>
+                  <h5>Fats</h5>
+                  <p>{totalFats}g</p>
+                </div>
+              </div>
+
               <div className={styles.columnItem}>
+                <CircularProgressbar value={progress} text={`${wholeNumberPercentage}%`} styles={buildStyles({
+                   pathColor: '#61cc61',
+                   textColor: '#ffff',
+                   trailColor: '#ffff'
+                })}/>
                 <h5>Calories</h5>
                 <p>{totalCalories}</p>
               </div>
@@ -225,59 +303,65 @@ return (
                 <h5>Budget</h5>
                 <p>{caloricBudget}</p>
               </div>
+            
             </div>
-          </div>
 
-          {/* Right Column - Search Input, API Info, Food Log History */}
-          <div className={styles.searchContent}>
-            <div>
-              <input
-                type="text"
-                value={foodQuery}
-                onChange={(e) => setFoodQuery(e.target.value)}
-                onKeyPress={handleKeyPress}
-                placeholder="Enter food query"
-                className={styles.input}
-              />
-            </div>
-            {searchResult && (
-              <div>
-                {searchResult.foods && searchResult.foods.length > 0 && (
-                  <div className={styles.apiInfo}>
-                    <h3>
-                      <strong>{searchResult.foods[0].food_name}:</strong>
-                    </h3>
-                    <p>
-                      Calories: {searchResult.foods[0].nf_calories}, Serving:{" "}
-                      {searchResult.foods[0].serving_qty}{" "}
-                      {searchResult.foods[0].serving_unit}
-                    </p>
-                    <button onClick={handleClickEvent}>+</button>
+            <div className={styles.searchAndHistory}>
+              {/* Right Column - Search Input, API Info, Food Log History */}
+              <div className={styles.searchContent}>
+                <div className="input-group mb-3">
+                  <span className="input-group-text" id="basic-addon1" onClick={handleSearchClick}><FontAwesomeIcon icon={faMagnifyingGlass} /></span>
+                  <input
+                    type="text"
+                    className={"form-control"}
+                    placeholder="Search for a food"
+                    value={foodQuery}
+                    onChange={(e) => setFoodQuery(e.target.value)}
+                    onKeyPress={handleKeyPress}
+                  />
+                </div>
+                {searchResult && (
+                  <div>
+                    {searchResult.foods && searchResult.foods.length > 0 && (
+                      <div className={styles.apiInfo}>
+                        <h3>
+                          <strong>{searchResult.foods[0].food_name}:</strong>
+                        </h3>
+                        <p>
+                          Calories: {searchResult.foods[0].nf_calories}, Serving:{" "}
+                          {searchResult.foods[0].serving_qty}{""}
+                          {searchResult.foods[0].serving_unit}
+                        </p>
+                        <button onClick={handleClickEvent}><FontAwesomeIcon icon={faPlus} /></button>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
-            )}
 
-            {/* Display the history of added food logs */}
-            <div className={styles.foodLogs}>
-              <h2>Food Log History</h2>
-              <ul>
-                {data &&
-                  data.map((entry) => (
-                    <li key={entry.id}>
-                      {entry.food_name} - Calories: {entry.calories}
-                    </li>
-                  ))}
-              </ul>
+              {/* Display the history of added food logs */}
+              <div className={`${styles.foodLogs}`}>
+                <h2>Food Log History</h2>
+                <div className={`${styles.history}`}>
+                  <ul>
+                    {data &&
+                      data.map((entry) => (
+                        <div className={styles.historyText}>
+                          <li key={entry.id}>
+                            <b>{entry.food_name}:</b> ‎ Calories: {entry.calories}
+                            <button onClick={() => handleDeleteEvent(entry.id)}>
+                              <FontAwesomeIcon icon={faMinus} />
+                            </button>
+                          </li>
+                        </div>
+                      ))}
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </>
-);
-
-
-
-
+    </>
+  );
 }
