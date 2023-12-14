@@ -3,6 +3,7 @@ import axios from "axios";
 import { useGlobalState } from "@/context/GlobalState";
 import { jwtDecode } from "jwt-decode";
 import Nav from "@/components/Nav/Nav";
+import toast, { Toaster } from 'react-hot-toast';
 
 function YourComponent() {
   const [age, setAge] = useState(0);
@@ -97,199 +98,146 @@ function YourComponent() {
       );
 
       console.log(`Backend Response for ${column}:`, response.data);
+      // toast.success("Saved Successfully")
     } catch (error) {
       console.error(`Error updating ${column}:`, error);
     }
   };
 
   const handleBatchUpdate = async () => {
-    checkedFields.forEach(async (field) => {
+    const updatePromises = [];
+    // Use forEach to iterate over all fields without checking if they are included in checkedFields
+    ["age", "height", "weight", "gender", "health_goals"].forEach((field) => {
       switch (field) {
         case "age":
-          await handleUpdate("age", age);
+          updatePromises.push(handleUpdate("age", age));
           break;
         case "height":
-          await handleUpdate("height", heightInCm());
+          updatePromises.push(handleUpdate("height", heightInCm()));
           break;
         case "weight":
-          await handleUpdate("weight", weightInKg());
+          updatePromises.push(handleUpdate("weight", weightInKg()));
           break;
         case "gender":
-          await handleUpdate("gender", gender);
+          updatePromises.push(("gender", gender));
           break;
         case "health_goals":
-          await handleUpdate("health_goals", healthGoals);
+          updatePromises.push(("health_goals", healthGoals));
           break;
         default:
           break;
       }
     });
-  };
 
+    try {
+      await Promise.all(updatePromises);
+      toast.success("Updated Successfully");
+    } catch (error) {
+      toast.error("Error updating fields:", error);
+    }
+
+  };
+  
   return (
-<div style={{ backgroundColor: "#212223", minHeight: "100vh" }}>
-    <Nav activeLink = "user"/>
-      <div className="container d-flex flex-column gap-2 justify-content-center align-items-center p-5 fw-bold mt-5" style={{backgroundColor: "#2f3031", color: "white"}}>
+    <div style={{ backgroundColor: "#212223", minHeight: "100vh" }}>
+      <Nav activeLink="user" />
+      <div className="container d-flex flex-column gap-2 justify-content-center align-items-center p-5 fw-bold mt-5" style={{ backgroundColor: "#2f3031", color: "white" }}>
+        {/* ... (existing code) */}
         <div>
-        <label>Age:</label>
+          <label>Age:</label>
           <div className="input-group mb-3">
-            <div className="input-group-text">
-              <input
-                className="form-check-input "
-                type="checkbox"
-                value=""
-                aria-label="Checkbox for following text input"
-                checked={checkedFields.includes("age")}
-                onChange={() => toggleCheckedField("age")}
-              />
-            </div>
             <input
               type="text"
               className="form-control"
-              aria-label="Text input with checkbox"
+              aria-label="Text input"
               value={age}
               onChange={handleInputChange(setAge)}
               style={{ width: "150px" }}
             />
-          
           </div>
         </div>
         <div>
           <label>Height (feet):</label>
           <div className="input-group mb-3">
-            <div className="input-group-text">
-              <input
-                className="form-check-input mt-0"
-                type="checkbox"
-                value=""
-                aria-label="Checkbox for following text input"
-                checked={checkedFields.includes("height")}
-                onChange={() => toggleCheckedField("height")}
-              />
-            </div>
             <select
               value={feet}
               onChange={handleInputChange(setFeet)}
               className="form-select"
               style={{ width: "150px" }}
             >
-              {Array.from({ length: 6 }, (_, index) => (
+              {Array.from({ length: 8 }, (_, index) => (
                 <option key={index + 1} value={(index + 1).toString()}>
                   {index + 1}
                 </option>
               ))}
             </select>
-           
           </div>
         </div>
         <div>
           <label>Height (inches):</label>
           <div className="input-group mb-3">
-            <div className="input-group-text">
-              <input
-                className="form-check-input mt-0"
-                type="checkbox"
-                value=""
-                aria-label="Checkbox for following text input"
-                checked={checkedFields.includes("height")}
-                onChange={() => toggleCheckedField("height")}
-              />
-            </div>
             <select
               value={inches}
               onChange={handleInputChange(setInches)}
               className="form-select"
-              style={{ width: "150px" }} 
+              style={{ width: "150px" }}
             >
-              {Array.from({ length: 11 }, (_, index) => (
+              {Array.from({ length: 12 }, (_, index) => (
                 <option key={index + 1} value={(index + 1).toString()}>
-                  {index + 1}
+                  {index}
                 </option>
               ))}
             </select>
-          
           </div>
         </div>
         <div>
           <label>Weight (lbs):</label>
           <div className="input-group mb-3">
-            <div className="input-group-text">
-              <input
-                className="form-check-input mt-0"
-                type="checkbox"
-                value=""
-                aria-label="Checkbox for following text input"
-                checked={checkedFields.includes("weight")}
-                onChange={() => toggleCheckedField("weight")}
-              />
-            </div>
             <input
               type="text"
               className="form-control"
               value={weightLbs}
               onChange={handleInputChange(setWeightLbs)}
-              style={{ width: "150px" }} 
+              style={{ width: "150px" }}
             />
-            
           </div>
         </div>
         <div>
-  <label>Gender:</label>
-  <div className="input-group mb-3">
-    <div className="input-group-text">
-      <input
-        className="form-check-input mt-0"
-        type="checkbox"
-        value=""
-        aria-label="Checkbox for following text input"
-        checked={checkedFields.includes("gender")}
-        onChange={() => toggleCheckedField("gender")}
-      />
-    </div>
-    <select
-      value={gender}
-      onChange={handleInputChange(setGender)}
-      className="form-select"
-      style={{ width: "150px" }}
-    >
-      {GENDER_OPTIONS.map((option) => (
-        <option key={option} value={option.toLowerCase()}>
-          {option}
-        </option>
-      ))}
-    </select>
-  </div>
-</div>
-
-<div>
-  <label>Health Goals:</label>
-  <div className="input-group mb-3">
-    <div className="input-group-text">
-      <input
-        className="form-check-input mt-0"
-        type="checkbox"
-        value=""
-        aria-label="Checkbox for following text input"
-        checked={checkedFields.includes("health_goals")}
-        onChange={() => toggleCheckedField("health_goals")}
-      />
-    </div>
-    <select
-      value={healthGoals}
-      onChange={handleInputChange(setHealthGoals)}
-      className="form-select"
-      style={{ width: "150px" }}
-    >
-      {HEALTH_GOAL_OPTIONS.map((option) => (
-        <option key={option} value={option.toLowerCase()}>
-          {option}
-        </option>
-      ))}
-    </select>
-  </div>
-</div>
+          <label>Gender:</label>
+          <div className="input-group mb-3">
+            <select
+              value={gender}
+              onChange={handleInputChange(setGender)}
+              className="form-select"
+              style={{ width: "150px" }}
+            >
+              {GENDER_OPTIONS.map((option) => (
+                <option key={option} value={option.toLowerCase()}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
         <div>
-          <button className="btn btn-primary" onClick={handleBatchUpdate} style={{width: "150px", backgroundColor: "#61cc61", border: "none", boxShadow: "0 0 8px rgba(114, 238, 114, 0.8)"}}>Update</button>
+          <label>Health Goals:</label>
+          <div className="input-group mb-3">
+            <select
+              value={healthGoals}
+              onChange={handleInputChange(setHealthGoals)}
+              className="form-select"
+              style={{ width: "150px" }}
+            >
+              {HEALTH_GOAL_OPTIONS.map((option) => (
+                <option key={option} value={option.toLowerCase()}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div>
+          <button className="btn btn-primary" onClick={handleBatchUpdate} style={{ width: "150px", backgroundColor: "#61cc61", border: "none", boxShadow: "0 0 8px rgba(114, 238, 114, 0.8)" }}>Save</button>
         </div>
       </div>
     </div>

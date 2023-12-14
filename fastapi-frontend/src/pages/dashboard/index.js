@@ -8,6 +8,8 @@ import { faPlus, faMinus, faMagnifyingGlass } from "@fortawesome/free-solid-svg-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import toast, { Toaster } from 'react-hot-toast';
+
 
 
 // Health goal options
@@ -164,7 +166,7 @@ export default function DashboardPage() {
         clearSearchBar();
       } else {
         // Display a message or handle the case where adding the food log exceeds the budget
-        console.log('Adding this food log exceeds the caloric budget!');
+        toast.error('Adding this food log exceeds the caloric budget!');
       }
     } catch (error) {
       console.error("Error posting or fetching data:", error);

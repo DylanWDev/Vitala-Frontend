@@ -1,6 +1,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { GlobalStateProvider } from "../context/GlobalState";
 import '../styles/global.css';
+import toast, { Toaster } from 'react-hot-toast';
 
 
 function MyApp({ Component, pageProps }) {
@@ -8,6 +9,7 @@ function MyApp({ Component, pageProps }) {
     <GlobalStateProvider>
       <div>
         <Component {...pageProps} />
+        <Toaster/>
       </div>
     </GlobalStateProvider>
   );
