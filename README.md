@@ -26,4 +26,4 @@ View graphical representations of your calorie consumption and progress over tim
 Stay motivated by tracking your achievements and milestones.
 
 
-#link to backend REPO https://github.com/DylanWDev/Vitala-Backend2
+## link to backend REPO https://github.com/DylanWDev/Vitala-Backend2
